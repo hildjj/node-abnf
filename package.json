@@ -1,7 +1,7 @@
 {
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "name": "abnf",
-  "description": "Augmented Backus-Naur Form (ABNF) parsing.  See RFC 4234.",
+  "description": "Augmented Backus-Naur Form (ABNF) parsing.  See RFC 5234.",
   "version": "0.0.0",
   "homepage": "https://github.com/hildjj/node-abnf",
   "repository": {

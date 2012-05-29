@@ -5,6 +5,11 @@ var abnf = require('../lib/abnf');
 var util = require('util');
 
 function print_ast(er, rules) {
+    if (er) {
+        console.error("At line:", rules.line)
+        console.error(er);
+        return;
+    }
     for (var i in rules.defs) {
         var r = rules.defs[i];
         console.log(r.name, r.line, util.inspect(r.def, false, 10));
@@ -17,6 +22,6 @@ if (args.length === 0) {
     process.stdin.resume();
 } else {
     args.forEach(function(a) {
-        abnf.Parse(a, print_ast);
+        abnf.ParseFile(a, print_ast);
     });
 }

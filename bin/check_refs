@@ -5,6 +5,11 @@ var abnf = require('../lib/abnf');
 var util = require('util');
 
 function check_refs(er, rules) {
+    if (er) {
+        console.error("At line:", rules.line)
+        console.error(er);
+        return;
+    }
     rules.refs.forEach(function(ref) {
         if (!rules.defs.hasOwnProperty(ref.name.toUpperCase())) {
             console.log("Unknown reference: '" + ref.name + "' at line " + ref.line);
@@ -18,6 +23,6 @@ if (args.length === 0) {
     process.stdin.resume();
 } else {
     args.forEach(function(a) {
-        abnf.Parse(a, check_refs);
+        abnf.ParseFile(a, check_refs);
     });
 }

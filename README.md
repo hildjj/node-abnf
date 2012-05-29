@@ -1,4 +1,6 @@
-Parse ABNF grammars
+# Parse ABNF grammars
+
+For more information on ABNF, See [RFC5234](http://tools.ietf.org/html/rfc5234).
 
 Example:
 
@@ -12,7 +14,11 @@ Example:
     });
 
 ### .Parse(input, callback)
-Parse the given input (string, filename, or readable stream), then call the
+Parse the given input (string or readable stream), then call the
+callback with an error (will be null on success) and a Rules object
+
+### .ParseFile(input, callback)
+Parse the file with the given name, then call the
 callback with an error (will be null on success) and a Rules object
 
 ### Rules.defs
