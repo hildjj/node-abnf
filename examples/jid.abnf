@@ -1,0 +1,75 @@
+      jid           = [ localpart "@" ] domainpart [ "/" resourcepart ]
+      localpart     = 1*(nodepoint)
+                      ;
+                      ; a "nodepoint" is a UTF-8 encoded Unicode code
+                      ; point that satisfies the Nodeprep profile of
+                      ; stringprep
+                      ;
+      domainpart    = IP-literal / IPv4address / ifqdn
+                      ;
+                      ; the "IPv4address" and "IP-literal" rules are
+                      ; defined in RFC 3986, and the first-match-wins
+                      ; (a.k.a. "greedy") algorithm described in RFC
+                      ; 3986 applies to the matching process
+                      ;
+                      ; note well that reuse of the IP-literal rule
+                      ; from RFC 3986 implies that IPv6 addresses are
+                      ; enclosed in square brackets (i.e., beginning
+                      ; with '[' and ending with ']'), which was not
+                      ; the case in RFC 3920
+                      ;
+      ifqdn         = 1*(namepoint)
+                      ;
+                      ; a "namepoint" is a UTF-8 encoded Unicode
+                      ; code point that satisfies the Nameprep
+                      ; profile of stringprep
+                      ;
+      resourcepart  = 1*(resourcepoint)
+                      ;
+                      ; a "resourcepoint" is a UTF-8 encoded Unicode
+                      ; code point that satisfies the Resourceprep
+                      ; profile of stringprep
+                      ;
+
+; From RFC 3986
+
+      IP-literal = "[" ( IPv6address / IPvFuture  ) "]"
+
+      IPvFuture  = "v" 1*HEXDIG "." 1*( unreserved / sub-delims / ":" )
+
+
+      IPv6address =                            6( h16 ":" ) ls32
+                  /                       "::" 5( h16 ":" ) ls32
+                  / [               h16 ] "::" 4( h16 ":" ) ls32
+                  / [ *1( h16 ":" ) h16 ] "::" 3( h16 ":" ) ls32
+                  / [ *2( h16 ":" ) h16 ] "::" 2( h16 ":" ) ls32
+                  / [ *3( h16 ":" ) h16 ] "::"    h16 ":"   ls32
+                  / [ *4( h16 ":" ) h16 ] "::"              ls32
+                  / [ *5( h16 ":" ) h16 ] "::"              h16
+                  / [ *6( h16 ":" ) h16 ] "::"
+
+      ls32        = ( h16 ":" h16 ) / IPv4address
+                  ; least-significant 32 bits of address
+
+      h16         = 1*4HEXDIG
+                  ; 16 bits of address represented in hexadecimal
+
+      IPv4address = dec-octet "." dec-octet "." dec-octet "." dec-octet
+
+      dec-octet   = DIGIT                 ; 0-9
+                  / %x31-39 DIGIT         ; 10-99
+                  / "1" 2DIGIT            ; 100-199
+                  / "2" %x30-34 DIGIT     ; 200-249
+                  / "25" %x30-35          ; 250-255
+
+      sub-delims  = "!" / "$" / "&" / "'" / "(" / ")"
+                  / "*" / "+" / "," / ";" / "="
+
+      unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
+
+; From RFC 5234
+
+      ALPHA          =  %x41-5A / %x61-7A   ; A-Z / a-z
+      HEXDIG         =  DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
+      DIGIT          =  %x30-39
+                                ; 0-9
