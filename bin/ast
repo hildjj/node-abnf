@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+// -*- js -*-
+
+var abnf = require('../lib/abnf');
+var util = require('util');
+
+function print_ast(er, rules) {
+    for (var i in rules.defs) {
+        var r = rules.defs[i];
+        console.log(r.name, r.line, util.inspect(r.def, false, 10));
+    }
+}
+
+var args = process.argv.slice(2);
+if (args.length === 0) {
+    abnf.Parse(process.stdin, print_ast);
+    process.stdin.resume();
+} else {
+    args.forEach(function(a) {
+        abnf.Parse(a, print_ast);
+    });
+}

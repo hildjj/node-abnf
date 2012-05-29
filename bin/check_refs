@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+// -*- js -*-
+
+var abnf = require('../lib/abnf');
+var util = require('util');
+
+function check_refs(er, rules) {
+    rules.refs.forEach(function(ref) {
+        if (!rules.defs.hasOwnProperty(ref.name.toUpperCase())) {
+            console.log("Unknown reference: '" + ref.name + "' at line " + ref.line);
+        }
+    });
+}
+
+var args = process.argv.slice(2);
+if (args.length === 0) {
+    abnf.Parse(process.stdin, check_refs);
+    process.stdin.resume();
+} else {
+    args.forEach(function(a) {
+        abnf.Parse(a, check_refs);
+    });
+}
