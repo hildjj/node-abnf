@@ -2,7 +2,11 @@
 
 For more information on ABNF, See [RFC5234](http://tools.ietf.org/html/rfc5234).
 
-Example:
+## Installation:
+
+    npm install abnf
+
+## Example:
 
     var abnf = require('abnf');
     abnf.Parse("myfile.abnf", function(er, rules) {
