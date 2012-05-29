@@ -8,7 +8,8 @@
     "url": "git://github.com/hildjj/node-abnf.git"
   },
   "directories": {
-    "lib": "./lib"
+    "lib": "./lib",
+    "bin": "./bin"
   },
   "main": "lib/abnf",  
   "dependencies": {
