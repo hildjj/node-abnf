@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/hildjj/node-abnf.png)](http://travis-ci.org/hildjj/node-abnf)
 # Parse ABNF grammars
 
 For more information on ABNF, See [RFC5234](http://tools.ietf.org/html/rfc5234).
