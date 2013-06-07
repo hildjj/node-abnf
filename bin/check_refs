@@ -6,7 +6,7 @@ var util = require('util');
 
 function check_refs(er, rules) {
     if (er) {
-        console.error("At line:", rules.line)
+        console.error("At line:", rules.line);
         console.error(er);
         return;
     }
