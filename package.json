@@ -2,7 +2,7 @@
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "name": "abnf",
   "description": "Augmented Backus-Naur Form (ABNF) parsing.  See RFC 5234.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/hildjj/node-abnf",
   "repository": {
     "url": "git://github.com/hildjj/node-abnf.git"
@@ -18,6 +18,6 @@
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
-    "node": "~0.8.1"
+    "node": "~0.10.10"
   }
 }
