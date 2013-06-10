@@ -15,6 +15,11 @@ function check_refs(er, rules) {
             console.log("Unknown reference: '" + ref.name + "' at line " + ref.line);
         }
     });
+    for (var name in rules.defs) {
+        if ((rules.findRefs(name).length === 0) && (name !== rules.first)) {
+            console.log("Unreferenced: '" + name + "' at line " + rules.defs[name].line);
+        }
+    }
 }
 
 var args = process.argv.slice(2);
