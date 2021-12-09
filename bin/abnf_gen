@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+const abnf = require('../lib/abnf');
+
+function gen_peggy(er, rules) {
+  if (er) {
+    console.error("At line:", rules.line);
+    console.error(er);
+    return;
+  }
+
+  console.log(rules.toPeggy());
+}
+
+const args = process.argv.slice(2);
+if (args.length === 0) {
+  abnf.Parse(process.stdin, gen_peggy);
+  process.stdin.resume();
+} else {
+  args.forEach(function (a) {
+    abnf.ParseFile(a, gen_peggy);
+  });
+}
