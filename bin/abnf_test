@@ -1,0 +1,98 @@
+#!/usr/bin/env node
+"use strict";
+
+// This is just a placeholder for peggy 1.3, which does all of this for you.
+
+const { Command } = require("commander");
+const fs = require("fs");
+const path = require("path");
+const peggy = require("peggy");
+const util = require("util");
+
+function readStream(s) {
+  return new Promise((resolve, reject) => {
+    const bufs = [];
+    s.on("error", reject);
+    s.on("data", d => bufs.push(d));
+    s.on("end", () => resolve(Buffer.concat(bufs).toString("utf8")));
+  });
+}
+
+const program = new Command();
+program
+  .argument("[peggyFile...]", "The peggy version of the grammar to test.")
+  .option(
+    "-o, --output",
+    "Output grammar source, if not testing.  Generated from peggyFile name if needed."
+  )
+  .option("-t, --test <string>", "String to check against grammar.")
+  .option("-T, --testFile <file>", "File contents to check against grammar.")
+  .action(async(files, opts) => {
+    if (files.length === 0) {
+      files.push("-");
+    }
+    for (const f of files) {
+      const s = (f === "-") ? process.stdin : fs.createReadStream(f);
+      const text = await readStream(s);
+      let testText = null;
+      let testSource = null;
+      try {
+        const parser = peggy.generate(text, {
+          grammarSource: f,
+          output: "source",
+          format: "commonjs",
+          sourceMap: "inline",
+        });
+
+        if (typeof opts.test === "string") {
+          testSource = "command line";
+          testText = opts.test;
+          const { parse } = eval(parser);
+          console.log(util.inspect(parse(opts.test, {
+            grammarSource: testSource,
+          }), {
+            depth: Infinity,
+            colors: process.stdout.isTTY,
+            maxArrayLength: Infinity,
+            maxStringLength: Infinity,
+          }));
+        } else if (opts.testFile) {
+          testSource = opts.testFile;
+          testText = fs.readFileSync(opts.testFile, "utf8");
+          const { parse } = eval(parser);
+          console.log(util.inspect(parse(testText, {
+            grammarSource: testSource,
+          }), {
+            depth: Infinity,
+            colors: process.stdout.isTTY,
+            maxArrayLength: Infinity,
+            maxStringLength: Infinity,
+          }));
+        } else {
+          // Output.
+          if (!opts.output) {
+            const p = path.parse(f);
+            delete p.base;
+            p.ext = ".js";
+            opts.output = path.format(p);
+          }
+          fs.writeFileSync(opts.output, parser);
+        }
+      } catch (er) {
+        if (typeof er.format === "function") {
+          console.error(er.format([
+            {
+              source: f,
+              text,
+            },
+            {
+              source: testSource,
+              text: testText,
+            },
+          ]));
+        }
+      }
+    }
+  })
+  .parseAsync()
+  .catch(er => console.error(er));

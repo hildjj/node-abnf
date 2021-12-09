@@ -2,21 +2,64 @@
 "use strict";
 
 const abnf = require("../lib/abnf");
+const { Command } = require("commander");
+const path = require("path");
+const fs = require("fs");
 
-function gen_peggy(er, rules) {
-  if (er) {
-    console.error("At line:", rules.line);
-    console.error(er);
-    return;
+function gen_peggy(rules, opts) {
+  const out = rules.toPeggy(opts);
+  if (opts.output === "-") {
+    console.log(out);
+  } else {
+    fs.writeFileSync(opts.output, out);
   }
-
-  console.log(rules.toPeggy());
 }
 
-const args = process.argv.slice(2);
-if (args.length === 0) {
-  abnf.parse(process.stdin, gen_peggy);
-  process.stdin.resume();
-} else {
-  args.forEach(a => abnf.parseFile(a, gen_peggy));
-}
+const program = new Command();
+program
+  .argument("[abnfFile...]", "ABNF files to turn into peggy grammars.")
+  .option(
+    "-s, --startRule <ruleName>",
+    "Start rule for peggy grammar.  Defaults to first rule in ABNF grammar."
+  )
+  .option(
+    "-o, --output <file>",
+    "Output peggy grammar file name.  Derived from input file name if not specified.",
+    "stdin.peggy"
+  )
+  .option(
+    "-u, --unused",
+    "Output rules that are not reachable from the start rule"
+  )
+  .action(async(files, opts, cmd) => {
+    if (files.length === 0) {
+      files.push("-");
+    }
+    for (const f of files) {
+      let rules = null;
+      try {
+        if (f === "-") {
+          process.stdin.resume();
+          rules = await abnf.parseStream(process.stdin);
+        } else {
+          if (cmd.getOptionValueSource("output") === "default") {
+            const p = path.parse(f);
+            delete p.base;
+            p.ext = ".peggy";
+            opts.output = path.format(p);
+          }
+
+          rules = await abnf.parseFile(f);
+        }
+      } catch (er) {
+        console.error("At line:", rules.line);
+        console.error(er);
+        return;
+      }
+      gen_peggy(rules, opts);
+    }
+  })
+  .parseAsync()
+  .catch(er => {
+    console.error(er);
+  });

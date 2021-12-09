@@ -1,16 +1,10 @@
 #!/usr/bin/env node
-// -*- js -*-
-
 "use strict";
 
 const abnf = require("../lib/abnf");
+const { Command } = require("commander");
 
-function check_refs(er, rules) {
-  if (er) {
-    console.error("At line:", rules.line);
-    console.error(er);
-    return;
-  }
+function check_refs(rules) {
   rules.refs.forEach(ref => {
     if (!Object.prototype.hasOwnProperty.call(
       rules.defs,
@@ -26,10 +20,28 @@ function check_refs(er, rules) {
   }
 }
 
-const args = process.argv.slice(2);
-if (args.length === 0) {
-  abnf.parse(process.stdin, check_refs);
-  process.stdin.resume();
-} else {
-  args.forEach(a => abnf.parseFile(a, check_refs));
-}
+const program = new Command();
+program
+  .argument("[abnfFile...]")
+  .action(async(files, opts) => {
+    if (files.length === 0) {
+      files.push("-");
+    }
+    for (const f of files) {
+      let rules = null;
+      try {
+        if (f === "-") {
+          process.stdin.resume();
+          rules = await abnf.parseStream(process.stdin);
+        } else {
+          rules = await abnf.parseFile(f);
+        }
+      } catch (er) {
+        console.error("At line:", rules.line);
+        console.error(er);
+        return;
+      }
+      check_refs(rules, opts);
+    }
+  })
+  .parse();
