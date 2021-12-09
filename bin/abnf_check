@@ -44,4 +44,5 @@ program
       check_refs(rules, opts);
     }
   })
-  .parse();
+  .parseAsync()
+  .catch(er => console.error(er));

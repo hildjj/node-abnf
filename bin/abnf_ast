@@ -38,4 +38,5 @@ program
       print_ast(rules, opts);
     }
   })
-  .parse();
+  .parseAsync()
+  .catch(er => console.error(er));

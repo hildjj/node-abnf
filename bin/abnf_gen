@@ -66,7 +66,7 @@ program
           const p = path.parse(f);
           delete p.base;
           p.ext = ".peggy";
-          cmd.setOptionValueWithSource("output", path.format(p), "first")
+          cmd.setOptionValueWithSource("output", path.format(p), "first");
         }
         text = abnf.formatInput(fs.readFileSync(f, "utf8"));
       }
