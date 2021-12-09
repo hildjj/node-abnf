@@ -1,27 +1,29 @@
 #!/usr/bin/env node
 // -*- js -*-
+"use strict";
 
-var abnf = require('../lib/abnf');
-var util = require('util');
+const abnf = require("../lib/abnf");
+const util = require("util");
 
 function print_ast(er, rules) {
-    if (er) {
-        console.error("At line:", rules.line)
-        console.error(er);
-        return;
+  if (er) {
+    console.error("At line:", rules.line);
+    console.error(er);
+    return;
+  }
+
+  for (const i in rules.defs) {
+    if (Object.prototype.hasOwnProperty.call(rules.defs, i)) {
+      const r = rules.defs[i];
+      console.log(r.name, r.line, util.inspect(r.def, false, 10));
     }
-    for (var i in rules.defs) {
-        var r = rules.defs[i];
-        console.log(r.name, r.line, util.inspect(r.def, false, 10));
-    }
+  }
 }
 
-var args = process.argv.slice(2);
+const args = process.argv.slice(2);
 if (args.length === 0) {
-    abnf.Parse(process.stdin, print_ast);
-    process.stdin.resume();
+  abnf.parse(process.stdin, print_ast);
+  process.stdin.resume();
 } else {
-    args.forEach(function(a) {
-        abnf.ParseFile(a, print_ast);
-    });
+  args.forEach(a => abnf.parseFile(a, print_ast));
 }

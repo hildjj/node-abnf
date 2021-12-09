@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+"use strict";
 
-const abnf = require('../lib/abnf');
+const abnf = require("../lib/abnf");
 
 function gen_peggy(er, rules) {
   if (er) {
@@ -14,10 +15,8 @@ function gen_peggy(er, rules) {
 
 const args = process.argv.slice(2);
 if (args.length === 0) {
-  abnf.Parse(process.stdin, gen_peggy);
+  abnf.parse(process.stdin, gen_peggy);
   process.stdin.resume();
 } else {
-  args.forEach(function (a) {
-    abnf.ParseFile(a, gen_peggy);
-  });
+  args.forEach(a => abnf.parseFile(a, gen_peggy));
 }

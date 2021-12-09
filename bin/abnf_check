@@ -1,33 +1,35 @@
 #!/usr/bin/env node
 // -*- js -*-
 
-var abnf = require('../lib/abnf');
-var util = require('util');
+"use strict";
+
+const abnf = require("../lib/abnf");
 
 function check_refs(er, rules) {
-    if (er) {
-        console.error("At line:", rules.line);
-        console.error(er);
-        return;
+  if (er) {
+    console.error("At line:", rules.line);
+    console.error(er);
+    return;
+  }
+  rules.refs.forEach(ref => {
+    if (!Object.prototype.hasOwnProperty.call(
+      rules.defs,
+      ref.name.toUpperCase()
+    )) {
+      console.log("Unknown reference: '" + ref.name + "' at line " + ref.line);
     }
-    rules.refs.forEach(function(ref) {
-        if (!rules.defs.hasOwnProperty(ref.name.toUpperCase())) {
-            console.log("Unknown reference: '" + ref.name + "' at line " + ref.line);
-        }
-    });
-    for (var name in rules.defs) {
-        if ((rules.findRefs(name).length === 0) && (name !== rules.first)) {
-            console.log("Unreferenced: '" + name + "' at line " + rules.defs[name].line);
-        }
+  });
+  for (const name in rules.defs) {
+    if ((rules.findRefs(name).length === 0) && (name !== rules.first)) {
+      console.log("Unreferenced: '" + name + "' at line " + rules.defs[name].line);
     }
+  }
 }
 
-var args = process.argv.slice(2);
+const args = process.argv.slice(2);
 if (args.length === 0) {
-    abnf.Parse(process.stdin, check_refs);
-    process.stdin.resume();
+  abnf.parse(process.stdin, check_refs);
+  process.stdin.resume();
 } else {
-    args.forEach(function(a) {
-        abnf.ParseFile(a, check_refs);
-    });
+  args.forEach(a => abnf.parseFile(a, check_refs));
 }
