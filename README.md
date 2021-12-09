@@ -8,22 +8,65 @@ For more information on ABNF, See [RFC5234](http://tools.ietf.org/html/rfc5234).
 
 ## Example:
 
-    var abnf = require('abnf');
-    abnf.Parse("myfile.abnf", function(er, rules) {
-    	if (er) {
-    		console.error(er);
-    	} else {
-    		// Do something with rules
-    	}
-    });
+    const abnf = require('abnf');
+    const rules = await abnf.parseFile("myfile.abnf");
 
-### .Parse(input, callback)
-Parse the given input (string or readable stream), then call the
-callback with an error (will be null on success) and a Rules object
+## CLI
 
-### .ParseFile(input, callback)
-Parse the file with the given name, then call the
-callback with an error (will be null on success) and a Rules object
+There are a few binaries included:
+
+### abnf_check
+
+Check the given ABNF file for correctness.
+
+### abnf_ast
+
+Output the generated abstract syntax tree for the ABNF input.  This output
+is mostly diagnostic in nature, not really meant to be parsed.
+
+### abnf_gen
+
+Generate a [Peggy](https://peggyjs.org/) grammar from the ABNF.  The idea
+is that you could then annotate this grammar with actions in order to create
+a useful parser.
+
+### abnf_test
+
+Using a generated [Peggy](https://peggyjs.org/) grammar, test inputs to see
+if they match.  This should be an adequate analog for what the ABNF should match.
+
+## Workflow
+
+```sh
+$ cat << EOF > foo.abnf
+f = "abc"
+EOF
+$ abnf_gen foo.abnf
+$ cat foo.peggy
+f = "abc"i
+$ abnf_test foo.peggy -t abc
+'abc'
+$ abnf_test foo.peggy -t ab
+Error: Expected "abc" but "a" found.
+ --> command line:1:1
+  |
+1 | ab
+  | ^
+```
+
+## API
+
+### .parseFile(input)
+Parse the file with the given name, returning a promise for a Rules object
+
+### .parseString(input)
+Parse the given string and return a Rules object
+
+### .parseStream(stream)
+Read the stream, parse it, and return a promise for a Rules object.
+
+### Rules.first
+The name of the first rule in the input grammar.
 
 ### Rules.defs
 A hash of Rule objects indexed by uppercase rulename.
