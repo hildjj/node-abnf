@@ -13,3 +13,6 @@ indent_size = 2
 
 [*.abnf]
 end_of_line = crlf
+
+[*.txt]
+end_of_line = crlf
