@@ -6,6 +6,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
+  ignorePatterns: [
+    "lib/abnfp.js",
+  ],
   rules: {
     "comma-dangle": ["error", {
       arrays: "always-multiline",
