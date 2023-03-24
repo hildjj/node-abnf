@@ -7,7 +7,7 @@
                       ; stringprep
                       ;
 
-      nodepoint = UTF8-char
+      nodepoint = UTF8-char ; WRONG.  Can't be @, for example
 
       domainpart    = IP-literal / IPv4address / ifqdn
                       ;
@@ -30,7 +30,7 @@
                       ; profile of stringprep
                       ;
 
-      namepoint = UTF8-char
+      namepoint = UTF8-char ; WRONG.  Can't be /, for example
 
       resourcepart  = 1*(resourcepoint)
                       ;

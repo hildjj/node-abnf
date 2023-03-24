@@ -10,12 +10,14 @@ function check_refs(rules) {
       rules.defs,
       ref.name.toUpperCase()
     )) {
-      console.log("Unknown reference: '" + ref.name + "' at line " + ref.line);
+      const loc = ref.loc;
+      console.log(`Reference to unknown rule "${ref.name}" at ${loc.source}:${loc.start.line}`);
     }
   });
   for (const name in rules.defs) {
     if ((rules.findRefs(name).length === 0) && (name !== rules.first)) {
-      console.log("Unreferenced: '" + name + "' at line " + rules.defs[name].line);
+      const loc = rules.defs[name].loc;
+      console.log(`Unreferenced rule "${name}" at ${loc.source}:${loc.start.line}`);
     }
   }
 }

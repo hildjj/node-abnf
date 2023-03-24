@@ -32,8 +32,8 @@ a useful parser.
 
 ### abnf_test
 
-Using a generated [Peggy](https://peggyjs.org/) grammar, test inputs to see
-if they match.  This should be an adequate analog for what the ABNF should match.
+Using an ABNF, test inputs to see if they match.  Returns the Peggy parse tree,
+which you'll want to modify if you're going to actually use the generated grammar.
 
 ## Workflow
 
