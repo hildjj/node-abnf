@@ -1,3 +1,6 @@
+   message         =   (fields / obs-fields)
+                       [CRLF body]
+
    quoted-pair     =   ("\" (VCHAR / WSP)) / obs-qp
 
    FWS             =   ([*WSP CRLF] 1*WSP) /  obs-FWS
@@ -8,7 +11,8 @@
                        %d93-126 /         ;  "(", ")", or "\"
                        obs-ctext
 
-   ccontent        =   ctext / quoted-pair / comment
+  ; Errata 7382
+   ccontent        =   ctext / quoted-pair
 
    comment         =   "(" *([FWS] ccontent) [FWS] ")"
 
@@ -48,8 +52,9 @@
 
    qcontent        =   qtext / quoted-pair
 
+  ; Errata 3135
    quoted-string   =   [CFWS]
-                       DQUOTE *([FWS] qcontent) [FWS] DQUOTE
+                       DQUOTE ((1*([FWS] qcontent) [FWS]) / FWS) DQUOTE
                        [CFWS]
 
 
@@ -88,7 +93,8 @@
 
    second          =   2DIGIT / obs-second
 
-   zone            =   (FWS ( "+" / "-" ) 4DIGIT) / obs-zone
+  ; Errata 6639
+   zone            =   (FWS ( "+" / "-" ) 4DIGIT) / [FWS] obs-zone
 
 
    address         =   mailbox / group
@@ -122,9 +128,6 @@
                        %d94-126 /         ;  characters not including
                        obs-dtext          ;  "[", "]", or "\"
 
-   message         =   (fields / obs-fields)
-                       [CRLF body]
-
    body            =   (*(*998text CRLF) *998text) / obs-body
 
    text            =   %d1-9 /            ; Characters excluding CR
@@ -132,9 +135,10 @@
                        %d12 /
                        %d14-127
 
+  ; Errata 2950
    fields          =   *(trace
                          *optional-field /
-                         *(resent-date /
+                         1*(resent-date /
                           resent-from /
                           resent-sender /
                           resent-to /
@@ -213,7 +217,8 @@
 
    path            =   angle-addr / ([CFWS] "<" [CFWS] ">" [CFWS])
 
-   received        =   "Received:" *received-token ";" date-time CRLF
+  ; Errata 3979
+   received        =   "Received:" [1*received-token / CFWS] ";" date-time CRLF
 
    received-token  =   word / angle-addr / addr-spec / domain
 
@@ -240,22 +245,18 @@
 
    obs-qp          =   "\" (%d0 / obs-NO-WS-CTL / LF / CR)
 
-   obs-body        =   *((*LF *CR *((%d0 / text) *LF *CR)) / CRLF)
+  ; Errata 1906
+   obs-body        =   *(%d0-127)
 
-   obs-unstruct    =   *((*LF *CR *(obs-utext *LF *CR)) / FWS)
-
-
-
-
- 
-
-
+  ; Errata 1905
+   obs-unstruct    =   *( (*CR 1*(obs-utext / FWS)) / 1*LF ) *CR
 
    obs-phrase      =   word *(word / "." / CFWS)
 
    obs-phrase-list =   [phrase / CFWS] *("," [phrase / CFWS])
 
-   obs-FWS         =   1*WSP *(CRLF 1*WSP)
+  ; Errata 1908
+   obs-FWS         =   1*([CRLF] WSP)
 
    obs-day-of-week =   [CFWS] day-name [CFWS]
 
@@ -382,7 +383,8 @@
 
    obs-return      =   "Return-Path" *WSP ":" path CRLF
 
-   obs-received    =   "Received" *WSP ":" *received-token CRLF
+  ; Errata 3979 and 5867
+   obs-received    =   "Received" *WSP ":" [1*received-token / CFWS] [ ";" date-time CRLF ]
 
    obs-optional    =   field-name *WSP ":" unstructured CRLF
 

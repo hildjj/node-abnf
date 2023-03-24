@@ -54,6 +54,7 @@ program
         if (typeof opts.test === "string") {
           testSource = "command line";
           testText = opts.test;
+          // eslint-disable-next-line no-eval -- Required
           const { parse } = eval(parser);
           console.log(util.inspect(parse(opts.test, {
             grammarSource: testSource,
@@ -66,6 +67,7 @@ program
         } else if (opts.testFile) {
           testSource = opts.testFile;
           testText = fs.readFileSync(opts.testFile, "utf8");
+          // eslint-disable-next-line no-eval -- Required
           const { parse } = eval(parser);
           console.log(util.inspect(parse(testText, {
             grammarSource: testSource,

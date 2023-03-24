@@ -37,9 +37,16 @@ program
           rules = await abnf.parseFile(f);
         }
       } catch (er) {
-        console.error("At line:", rules.line);
-        console.error(er);
-        return;
+        if (typeof er.format === "function") {
+          console.error(er.format([
+            {
+              source: er.grammarSource,
+              text: er.grammarText,
+            },
+          ]));
+          process.exit(1);
+        }
+        throw er;
       }
       check_refs(rules, opts);
     }

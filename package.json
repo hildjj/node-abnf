@@ -13,19 +13,20 @@
   },
   "main": "lib/abnf",
   "scripts": {
-    "lint": "eslint . --ext js && eslint bin/*"
+    "lint": "eslint . --ext js && eslint bin/*",
+    "build": "peggy lib/abnfp.peggy"
   },
   "dependencies": {
-    "commander": "^8.3.0",
-    "peggy": "^1.2.0",
+    "commander": "^10.0.0",
+    "peggy": "^3.0.2",
     "reparse": "~0.1.2"
   },
   "devDependencies": {
-    "@peggyjs/eslint-config": "^1.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.6.0",
-    "@typescript-eslint/parser": "^5.6.0",
-    "eslint": "^8.4.1",
-    "typescript": "^4.5.2"
+    "@peggyjs/eslint-config": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "eslint": "^8.36.0",
+    "typescript": "^5.0.2"
   },
   "engines": {
     "node": ">= 0.10.10"

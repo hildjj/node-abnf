@@ -2,10 +2,11 @@
 "use strict";
 
 const abnf = require("../lib/abnf");
-const ast = require("../lib/ast");
 const { Command } = require("commander");
 const path = require("path");
 const fs = require("fs");
+
+const COMBINED = "XXXXXCOMBINEDXXXXX";
 
 function readStream(s) {
   return new Promise((resolve, reject) => {
@@ -60,7 +61,7 @@ program
     for (const f of files) {
       let text = null;
       if (f === "-") {
-        text = abnf.formatInput(await readStream(process.stdin));
+        text = await readStream(process.stdin);
       } else {
         if (cmd.getOptionValueSource("output") === "default") {
           const p = path.parse(f);
@@ -68,7 +69,7 @@ program
           p.ext = ".peggy";
           cmd.setOptionValueWithSource("output", path.format(p), "first");
         }
-        text = abnf.formatInput(fs.readFileSync(f, "utf8"));
+        text = fs.readFileSync(f, "utf8");
       }
       const len = text.split("\r\n").length;
       file_offsets.push({
@@ -80,22 +81,29 @@ program
       input += text;
     }
 
-    const rules = new ast.Rules();
     try {
-      abnf.parseString(rules, input, { strict: true });
+      const rules = abnf.parseString(input, COMBINED);
+      gen_peggy(rules, opts);
     } catch (er) {
-      for (const { name, start, end } of file_offsets) {
-        if ((rules.line >= start) && (rules.line <= end)) {
-          console.error(`In file "${name}" at line ${rules.line - start}`);
-          break;
+      if (typeof er.format === "function") {
+        const line = er.location.start.line;
+        for (const { name, start, end } of file_offsets) {
+          if ((line >= start) && (line <= end)) {
+            const str = er.format([
+              {
+                source: COMBINED,
+                text: input,
+              },
+            ]);
+            er.message = str.replaceAll(COMBINED, name);
+          }
         }
       }
-      console.error(er.message);
+      throw er;
     }
-
-    gen_peggy(rules, opts);
   })
   .parseAsync()
   .catch(er => {
-    console.error(er);
+    console.error(er.message);
+    process.exit(1);
   });

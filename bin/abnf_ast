@@ -1,15 +1,32 @@
 #!/usr/bin/env node
 "use strict";
 
-const abnf = require("../lib/abnf");
+const abnf = require("../lib/abnf.js");
 const { Command } = require("commander");
 const util = require("util");
 
-function print_ast(rules) {
+function remove_loc(o) {
+  if (typeof o !== "object" || !o) {
+    return o;
+  }
+  if (Array.isArray(o)) {
+    return o.map(i => remove_loc(i));
+  }
+  delete o.loc;
+  for (const [k, v] of Object.entries(o)) {
+    o[k] = remove_loc(v);
+  }
+  return o;
+}
+
+function print_ast(rules, opts) {
   for (const i in rules.defs) {
     if (Object.prototype.hasOwnProperty.call(rules.defs, i)) {
       const r = rules.defs[i];
-      console.log(r.name, r.line, util.inspect(r.def, false, 10));
+      const def = opts.location ? r.def : remove_loc(r.def);
+      console.log(r.name, r.loc.start.line, util.inspect(def, false, 10));
+    } else {
+      throw new Error(`invalid def: ${i}`);
     }
   }
 }
@@ -17,6 +34,7 @@ function print_ast(rules) {
 const program = new Command();
 program
   .argument("[abnfFile...]")
+  .option("-l,--location", "don't remove location information")
   .action(async(files, opts) => {
     if (files.length === 0) {
       files.push("-");
@@ -25,15 +43,21 @@ program
       let rules = null;
       try {
         if (f === "-") {
-          process.stdin.resume();
-          rules = await abnf.parseStream(process.stdin);
+          rules = await abnf.parseStream(process.stdin, "stdin");
         } else {
           rules = await abnf.parseFile(f);
         }
       } catch (er) {
-        console.error("At line:", rules.line);
-        console.error(er);
-        return;
+        if (typeof er.format === "function") {
+          console.error(er.format([
+            {
+              source: er.grammarSource,
+              text: er.grammarText,
+            },
+          ]));
+          process.exit(1);
+        }
+        throw er;
       }
       print_ast(rules, opts);
     }
