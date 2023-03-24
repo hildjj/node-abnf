@@ -18,8 +18,7 @@
   },
   "dependencies": {
     "commander": "^10.0.0",
-    "peggy": "^3.0.2",
-    "reparse": "~0.1.2"
+    "peggy": "^3.0.2"
   },
   "devDependencies": {
     "@peggyjs/eslint-config": "^3.0.1",
