@@ -26,7 +26,11 @@ rule = WSP* name:rulename operator:defined_as children:elements c_nl {
 
 rulename = $(ALPHA (ALPHA / DIGIT / "-")*)
 
-defined_as = c_wsp* @("=" / "=/" / ":=") c_wsp*
+// RFC 2045 uses :=
+// RFC 1730 uses ::=
+// `::=` is from the original BNF.
+// I don't know where `:=` came from.
+defined_as = c_wsp* @("=/" / ":"|0..2| "=") c_wsp*
 
 elements = @alternation c_wsp*
 
@@ -94,59 +98,53 @@ prose_val = "<" prose:$([\x20-\x3d] / [\x3f-\x7e] / CRLF)* ">" {
 DQUOTE = "\""
 
 bin_val
-  = "b"i head:binnum tail:("." @binnum)+ {
+  = "b"i nums:binnum|2..,"."| {
     return new ast.CaseSensitiveString(
-      [head, ...tail].map(b => String.fromCharCode(b)).join(""),
+      nums.map(b => String.fromCharCode(b)).join(""),
       2,
       location()
     );
   }
   / "b"i min:binnum "-" max:binnum {
-    const r = new ast.Range(2, max, location());
-    r.setFirst(min);
-    return r;
+    return new ast.Range(2, min, max, location());
   }
   / "b"i n:binnum {
     return new ast.CaseSensitiveString(String.fromCharCode(n), 2, location())
   }
 
 dec_val
-  = "d"i head:decnum tail:("." @decnum)+ {
+  = "d"i nums:decnum|2..,"."| {
     return new ast.CaseSensitiveString(
-      [head, ...tail].map(d => String.fromCharCode(d)).join(""),
+      nums.map(d => String.fromCharCode(d)).join(""),
       10,
       location()
     );
   }
   / "d"i min:decnum "-" max:decnum {
-    const r = new ast.Range(10, max, location());
-    r.setFirst(min);
-    return r;
+    return new ast.Range(10, min, max, location());
   }
   / "d"i n:decnum {
     return new ast.CaseSensitiveString(String.fromCharCode(n), 10, location())
   }
 
 hex_val
-  = "x"i head:hexnum tail:("." @hexnum)+ {
+  = "x"i nums:hexnum|2..,"."| {
     return new ast.CaseSensitiveString(
-      [head, ...tail].map(x => String.fromCharCode(x)).join(""),
+      nums.map(x => String.fromCharCode(x)).join(""),
       16,
       location()
     );
   }
   / "x"i min:hexnum "-" max:hexnum {
-    const r = new ast.Range(16, max, location());
-    r.setFirst(min);
-    return r;
+    return new ast.Range(16, min, max, location());
   }
   / "x"i n:hexnum {
     return new ast.CaseSensitiveString(String.fromCharCode(n), 10, location())
   }
 
-binnum = BIT+ { return parseInt(text(), 2) }
-decnum = DIGIT+ { return parseInt(text(), 10) }
-hexnum = HEXDIG+ { return parseInt(text(), 16) }
+binnum = b:$BIT+ { return parseInt(b, 2) }
+decnum = d:$DIGIT+ { return parseInt(d, 10) }
+hexnum = h:$HEXDIG+ { return parseInt(h, 16) }
 
 c_wsp
   = c_nl WSP
@@ -175,8 +173,6 @@ SP = " "
 HTAB = "\t"
 
 VCHAR = [\x21-\x7e]
-
-// CRLF = [\r\n]+
 
 // Take any CR/LF sequence
 CRLF

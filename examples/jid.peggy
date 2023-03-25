@@ -16,7 +16,7 @@ nodepoint
   = UTF8_char
 
 IP_literal
-  = "[" ((IPv6address / IPvFuture)) "]"
+  = "[" (IPv6address / IPvFuture) "]"
 
 IPv4address
   = dec_octet "." dec_octet "." dec_octet "." dec_octet
@@ -45,7 +45,7 @@ IPv6address
   / ((h16 ":")|..6| h16)? "::"
 
 IPvFuture
-  = "v"i HEXDIG+ "." ((unreserved / sub_delims / ":"))+
+  = "v"i HEXDIG+ "." (unreserved / sub_delims / ":")+
 
 dec_octet
   = DIGIT

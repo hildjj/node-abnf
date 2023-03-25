@@ -1,11 +1,11 @@
 message
-  = ((fields / obs_fields)) (CRLF body)?
+  = (fields / obs_fields) (CRLF body)?
 
 fields
-  = ((trace optional_field* / ((resent_date / resent_from / resent_sender / resent_to / resent_cc / resent_bcc / resent_msg_id))+))* ((orig_date / from / sender / reply_to / to / cc / bcc / message_id / in_reply_to / references / subject / comments / keywords / optional_field))*
+  = (trace optional_field* / (resent_date / resent_from / resent_sender / resent_to / resent_cc / resent_bcc / resent_msg_id)+)* (orig_date / from / sender / reply_to / to / cc / bcc / message_id / in_reply_to / references / subject / comments / keywords / optional_field)*
 
 obs_fields
-  = ((obs_return / obs_received / obs_orig_date / obs_from / obs_sender / obs_reply_to / obs_to / obs_cc / obs_bcc / obs_message_id / obs_in_reply_to / obs_references / obs_subject / obs_comments / obs_keywords / obs_resent_date / obs_resent_from / obs_resent_send / obs_resent_rply / obs_resent_to / obs_resent_cc / obs_resent_bcc / obs_resent_mid / obs_optional))*
+  = (obs_return / obs_received / obs_orig_date / obs_from / obs_sender / obs_reply_to / obs_to / obs_cc / obs_bcc / obs_message_id / obs_in_reply_to / obs_references / obs_subject / obs_comments / obs_keywords / obs_resent_date / obs_resent_from / obs_resent_send / obs_resent_rply / obs_resent_to / obs_resent_cc / obs_resent_bcc / obs_resent_mid / obs_optional)*
 
 CRLF
   = CR LF
@@ -36,7 +36,7 @@ resent_cc
   = "Resent-Cc:"i address_list CRLF
 
 resent_bcc
-  = "Resent-Bcc:"i ((address_list / CFWS))? CRLF
+  = "Resent-Bcc:"i (address_list / CFWS)? CRLF
 
 resent_msg_id
   = "Resent-Message-ID:"i msg_id CRLF
@@ -60,7 +60,7 @@ cc
   = "Cc:"i address_list CRLF
 
 bcc
-  = "Bcc:"i ((address_list / CFWS))? CRLF
+  = "Bcc:"i (address_list / CFWS)? CRLF
 
 message_id
   = "Message-ID:"i msg_id CRLF
@@ -84,7 +84,7 @@ obs_return
   = "Return-Path"i WSP* ":" path CRLF
 
 obs_received
-  = "Received"i WSP* ":" ((received_token+ / CFWS))? (";" date_time CRLF)?
+  = "Received"i WSP* ":" (received_token+ / CFWS)? (";" date_time CRLF)?
 
 obs_orig_date
   = "Date"i WSP* ":" date_time CRLF
@@ -105,16 +105,16 @@ obs_cc
   = "Cc"i WSP* ":" address_list CRLF
 
 obs_bcc
-  = "Bcc"i WSP* ":" ((address_list / ((CFWS? ",")* CFWS?))) CRLF
+  = "Bcc"i WSP* ":" (address_list / ((CFWS? ",")* CFWS?)) CRLF
 
 obs_message_id
   = "Message-ID"i WSP* ":" msg_id CRLF
 
 obs_in_reply_to
-  = "In-Reply-To"i WSP* ":" ((phrase / msg_id))* CRLF
+  = "In-Reply-To"i WSP* ":" (phrase / msg_id)* CRLF
 
 obs_references
-  = "References"i WSP* ":" ((phrase / msg_id))* CRLF
+  = "References"i WSP* ":" (phrase / msg_id)* CRLF
 
 obs_subject
   = "Subject"i WSP* ":" unstructured CRLF
@@ -144,7 +144,7 @@ obs_resent_cc
   = "Resent-Cc"i WSP* ":" address_list CRLF
 
 obs_resent_bcc
-  = "Resent-Bcc"i WSP* ":" ((address_list / ((CFWS? ",")* CFWS?))) CRLF
+  = "Resent-Bcc"i WSP* ":" (address_list / ((CFWS? ",")* CFWS?)) CRLF
 
 obs_resent_mid
   = "Resent-Message-ID"i WSP* ":" msg_id CRLF
@@ -171,7 +171,7 @@ return
   = "Return-Path:"i path CRLF
 
 received
-  = "Received:"i ((received_token+ / CFWS))? ";" date_time CRLF
+  = "Received:"i (received_token+ / CFWS)? ";" date_time CRLF
 
 field_name
   = ftext+
@@ -221,7 +221,7 @@ received_token
   / domain
 
 obs_phrase_list
-  = ((phrase / CFWS))? ("," ((phrase / CFWS))?)*
+  = (phrase / CFWS)? ("," (phrase / CFWS)?)*
 
 ftext
   = [\x21-\x39]
@@ -235,7 +235,7 @@ VCHAR
   = [\x21-\x7e]
 
 obs_unstruct
-  = (((CR* ((obs_utext / FWS))+) / LF+))* CR*
+  = ((CR* (obs_utext / FWS)+) / LF+)* CR*
 
 day_of_week
   = (FWS? day_name)
@@ -248,7 +248,7 @@ time
   = time_of_day zone
 
 obs_mbox_list
-  = (CFWS? ",")* mailbox ("," ((mailbox / CFWS))?)*
+  = (CFWS? ",")* mailbox ("," (mailbox / CFWS)?)*
 
 name_addr
   = display_name? angle_addr
@@ -261,7 +261,7 @@ address
   / group
 
 obs_addr_list
-  = (CFWS? ",")* address ("," ((address / CFWS))?)*
+  = (CFWS? ",")* address ("," (address / CFWS)?)*
 
 comment
   = "(" (FWS? ccontent)* FWS? ")"
@@ -280,7 +280,7 @@ word
   / quoted_string
 
 obs_phrase
-  = word ((word / "." / CFWS))*
+  = word (word / "." / CFWS)*
 
 SP
   = " "
@@ -343,7 +343,7 @@ time_of_day
   = hour ":" minute (":" second)?
 
 zone
-  = (FWS (("+" / "-")) DIGIT|4|)
+  = (FWS ("+" / "-") DIGIT|4|)
   / FWS? obs_zone
 
 display_name
@@ -377,7 +377,7 @@ atom
   = CFWS? atext+ CFWS?
 
 quoted_string
-  = CFWS? DQUOTE ((((FWS? qcontent)+ FWS?) / FWS)) DQUOTE CFWS?
+  = CFWS? DQUOTE (((FWS? qcontent)+ FWS?) / FWS) DQUOTE CFWS?
 
 obs_angle_addr
   = CFWS? "<" obs_route addr_spec ">" CFWS?
@@ -450,7 +450,7 @@ ctext
   / obs_ctext
 
 quoted_pair
-  = ("\\" ((VCHAR / WSP)))
+  = ("\\" (VCHAR / WSP))
   / obs_qp
 
 atext
@@ -507,7 +507,7 @@ obs_ctext
   = obs_NO_WS_CTL
 
 obs_qp
-  = "\\" (("\x00" / obs_NO_WS_CTL / LF / CR))
+  = "\\" ("\x00" / obs_NO_WS_CTL / LF / CR)
 
 ALPHA
   = [\x41-\x5a]
@@ -524,7 +524,7 @@ qtext
   / obs_qtext
 
 obs_domain_list
-  = ((CFWS / ","))* "@" domain ("," CFWS? ("@" domain)?)*
+  = (CFWS / ",")* "@" domain ("," CFWS? ("@" domain)?)*
 
 obs_qtext
   = obs_NO_WS_CTL

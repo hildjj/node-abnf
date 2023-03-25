@@ -4,26 +4,13 @@
 const abnf = require("../lib/abnf.js");
 const { Command } = require("commander");
 const util = require("util");
-
-function remove_loc(o) {
-  if (typeof o !== "object" || !o) {
-    return o;
-  }
-  if (Array.isArray(o)) {
-    return o.map(i => remove_loc(i));
-  }
-  delete o.loc;
-  for (const [k, v] of Object.entries(o)) {
-    o[k] = remove_loc(v);
-  }
-  return o;
-}
+const { removeLoc } = require("../lib/utils.js");
 
 function print_ast(rules, opts) {
   for (const i in rules.defs) {
     if (Object.prototype.hasOwnProperty.call(rules.defs, i)) {
       const r = rules.defs[i];
-      const def = opts.location ? r.def : remove_loc(r.def);
+      const def = opts.location ? r.def : removeLoc(r.def);
       console.log(r.name, r.loc.start.line, util.inspect(def, false, 10));
     } else {
       throw new Error(`invalid def: ${i}`);

@@ -14,9 +14,13 @@
   "main": "lib/abnf",
   "scripts": {
     "lint": "eslint . --ext js && eslint bin/*",
-    "build": "peggy lib/abnfp.peggy"
+    "build": "peggy lib/abnfp.peggy",
+    "pretest": "npm run build",
+    "test": "ava",
+    "coverage": "c8 -r lcov ava"
   },
   "dependencies": {
+    "c8": "7.13.0",
     "commander": "^10.0.0",
     "peggy": "^3.0.2"
   },
@@ -24,6 +28,7 @@
     "@peggyjs/eslint-config": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "ava": "5.2.0",
     "eslint": "^8.36.0",
     "typescript": "^5.0.2"
   },

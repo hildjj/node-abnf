@@ -41,16 +41,16 @@ armor_header
   = "-----" "BEGIN PGP SIGNATURE" "-----" CRLF
 
 armor_keys
-  = (token ": " ((VCHAR / WSP))* CRLF)*
+  = (token ": " (VCHAR / WSP)* CRLF)*
 
 signature_data
-  = (((ALPHA / DIGIT / "=" / "+" / "/"))+ CRLF)+
+  = ((ALPHA / DIGIT / "=" / "+" / "/")+ CRLF)+
 
 armor_tail
   = "-----" "END PGP SIGNATURE" "-----" CRLF
 
 token
-  = ((ALPHA / DIGIT))+
+  = (ALPHA / DIGIT)+
 
 UTF8_1_not_dash
   = [\x00-\x2c]

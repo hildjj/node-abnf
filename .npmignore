@@ -4,3 +4,7 @@ t.abnf
 .gitattributes
 .eslintrc.js
 .editorconfig
+test/
+examples/
+coverage/
+*.peggy

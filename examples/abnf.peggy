@@ -1,5 +1,5 @@
 rulelist
-  = ((rule / (c_wsp* c_nl)))+
+  = (rule / (c_wsp* c_nl))+
 
 rule
   = rulename defined_as elements c_nl
@@ -13,10 +13,10 @@ c_nl
   / CRLF
 
 rulename
-  = ALPHA ((ALPHA / DIGIT / "-"))*
+  = ALPHA (ALPHA / DIGIT / "-")*
 
 defined_as
-  = c_wsp* (("=" / "=/")) c_wsp*
+  = c_wsp* ("=" / "=/") c_wsp*
 
 elements
   = alternation c_wsp*
@@ -26,7 +26,7 @@ WSP
   / HTAB
 
 comment
-  = ";" ((WSP / VCHAR))* CRLF
+  = ";" (WSP / VCHAR)* CRLF
 
 CRLF
   = CR LF
@@ -85,10 +85,10 @@ char_val
   / case_sensitive_string
 
 num_val
-  = "%" ((bin_val / dec_val / hex_val))
+  = "%" (bin_val / dec_val / hex_val)
 
 prose_val
-  = "<" (([\x20-\x3d] / [\x3f-\x7e]))* ">"
+  = "<" ([\x20-\x3d] / [\x3f-\x7e])* ">"
 
 case_insensitive_string
   = "%i"i? quoted_string
@@ -97,16 +97,16 @@ case_sensitive_string
   = "%s"i quoted_string
 
 bin_val
-  = "b"i BIT+ ((("." BIT+)+ / ("-" BIT+)))?
+  = "b"i BIT+ (("." BIT+)+ / ("-" BIT+))?
 
 dec_val
-  = "d"i DIGIT+ ((("." DIGIT+)+ / ("-" DIGIT+)))?
+  = "d"i DIGIT+ (("." DIGIT+)+ / ("-" DIGIT+))?
 
 hex_val
-  = "x"i HEXDIG+ ((("." HEXDIG+)+ / ("-" HEXDIG+)))?
+  = "x"i HEXDIG+ (("." HEXDIG+)+ / ("-" HEXDIG+))?
 
 quoted_string
-  = DQUOTE (([\x20-\x21] / [\x23-\x7e]))* DQUOTE
+  = DQUOTE ([\x20-\x21] / [\x23-\x7e])* DQUOTE
 
 BIT
   = "0"
