@@ -12,6 +12,7 @@ const util = require("util");
 const program = new Command();
 program
   .argument("[abnfFile...]", "The ABNF to test.")
+  .description("Send test inputs to an ABNF grammar")
   .option(
     "-o, --output",
     "Output grammar source, if not testing.  Generated from peggyFile name if needed."

@@ -5,6 +5,7 @@ const abnf = require("../lib/abnf");
 const { Command } = require("commander");
 
 function check_refs(rules) {
+  let ret = 0;
   rules.refs.forEach(ref => {
     if (!Object.prototype.hasOwnProperty.call(
       rules.defs,
@@ -12,19 +13,24 @@ function check_refs(rules) {
     )) {
       const loc = ref.loc;
       console.log(`Reference to unknown rule "${ref.name}" at ${loc.source}:${loc.start.line}`);
+      ret = 3;
     }
   });
   for (const name in rules.defs) {
     if ((rules.findRefs(name).length === 0) && (name !== rules.first)) {
       const loc = rules.defs[name].loc;
       console.log(`Unreferenced rule "${name}" at ${loc.source}:${loc.start.line}`);
+      ret = 3;
     }
   }
+  return ret;
 }
 
+let exitCode = 0;
 const program = new Command();
 program
   .argument("[abnfFile...]")
+  .description("Check ABNF files for syntax, unused rules, and undefined rules")
   .action(async(files, opts) => {
     if (files.length === 0) {
       files.push("-");
@@ -46,12 +52,20 @@ program
               text: er.grammarText,
             },
           ]));
-          process.exit(1);
+          process.exit(2);
         }
         throw er;
       }
-      check_refs(rules, opts);
+      const cr = check_refs(rules, opts);
+      if (cr) {
+        exitCode = cr;
+      }
     }
   })
   .parseAsync()
-  .catch(er => console.error(er));
+  .then(() => {
+    process.exit(exitCode);
+  }, er => {
+    console.error(er);
+    process.exit(1);
+  });

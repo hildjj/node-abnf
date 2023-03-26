@@ -57,8 +57,10 @@ test("escapes", t => {
 });
 
 test("prose", t => {
-  const rules = abnf.parseString("start = <foo>");
-  t.throws(() => rules.toPeggy());
+  [
+    "start = <foo>",
+    "start = <foo\nbar>",
+  ].map(snapPeggy.bind(null, t));
 });
 
 test("concatenation", t => {

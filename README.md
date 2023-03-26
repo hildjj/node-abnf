@@ -32,8 +32,8 @@ a useful parser.
 
 ### abnf_test
 
-Using an ABNF, test inputs to see if they match.  Returns the Peggy parse tree,
-which you'll want to modify if you're going to actually use the generated grammar.
+Using an ABNF, test inputs to see if they match.  Returns the Peggy parse
+tree, which will likely be somewhat confusing until you're familiar with Peggy.
 
 ## Workflow
 
@@ -43,8 +43,9 @@ f = "abc"
 EOF
 $ abnf_gen foo.abnf
 $ cat foo.peggy
-f = "abc"i
-$ abnf_test foo.peggy -t abc
+f
+  = "abc"i
+$ abnf_test foo.abnf -t abc
 'abc'
 $ abnf_test foo.peggy -t ab
 Error: Expected "abc" but "a" found.
@@ -77,8 +78,8 @@ An array of RuleRef objects.
 ### Rule.name
 The name of the rule
 
-### Rule.line
-The line in the input file where the rule name was defined
+### Rule.loc
+The Peggy location in the input file where the rule name was defined
 
 ### Rule.def
 The definition of the rule.  More information forthcoming.
@@ -86,5 +87,5 @@ The definition of the rule.  More information forthcoming.
 ### RuleRef.name
 The name of the rule that was referenced
 
-### RuleRef.line
-The line in the input file where the rule name was referenced.
+### RuleRef.loc
+The Peggy location in the input file where the rule name was referenced.

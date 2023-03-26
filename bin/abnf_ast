@@ -7,20 +7,23 @@ const util = require("util");
 const { removeLoc } = require("../lib/utils.js");
 
 function print_ast(rules, opts) {
-  for (const i in rules.defs) {
-    if (Object.prototype.hasOwnProperty.call(rules.defs, i)) {
-      const r = rules.defs[i];
-      const def = opts.location ? r.def : removeLoc(r.def);
-      console.log(r.name, r.loc.start.line, util.inspect(def, false, 10));
-    } else {
-      throw new Error(`invalid def: ${i}`);
+  for (const r of Object.values(rules.defs)) {
+    if (!opts.location) {
+      removeLoc(r);
     }
+    console.log(util.inspect(r, {
+      colors: process.stdout.isTTY,
+      depth: Infinity,
+      maxArrayLength: Infinity,
+      maxStringLength: Infinity,
+    }));
   }
 }
 
 const program = new Command();
 program
   .argument("[abnfFile...]")
+  .description("Output all of the rules derived from a given ABNF file")
   .option("-l,--location", "don't remove location information")
   .action(async(files, opts) => {
     if (files.length === 0) {
@@ -50,4 +53,7 @@ program
     }
   })
   .parseAsync()
-  .catch(er => console.error(er));
+  .catch(er => {
+    console.error(er);
+    process.exit(1);
+  });

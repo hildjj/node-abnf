@@ -21,6 +21,7 @@ function gen_peggy(rules, opts) {
 const program = new Command();
 program
   .argument("[abnfFile...]", "ABNF files to turn into peggy grammars.")
+  .description("Create a Peggy grammar from an ABNF file")
   .option(
     "-s, --startRule <ruleName>",
     "Start rule for peggy grammar.  Defaults to first rule in ABNF grammar."
@@ -96,6 +97,6 @@ program
   })
   .parseAsync()
   .catch(er => {
-    console.error(er.message);
+    console.error(er);
     process.exit(1);
   });

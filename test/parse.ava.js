@@ -34,6 +34,11 @@ test("failures", t => {
   t.throws(() => abnf.parseString("foo = %x60\nfoo = %x61\n"));
   // Empty group
   t.throws(() => abnf.parseString("foo = (   )"));
+  // Invalid repeat
+  t.throws(() => abnf.parseString("foo = *0%60"));
+  t.throws(() => abnf.parseString("foo = 0*0%60"));
+  t.throws(() => abnf.parseString("foo = 1*0%60"));
+  t.throws(() => abnf.parseString("foo = 3*2%60"));
 });
 
 test("prose", t => {
