@@ -89,3 +89,6 @@ The name of the rule that was referenced
 
 ### RuleRef.loc
 The Peggy location in the input file where the rule name was referenced.
+
+[![Tests](https://github.com/hildjj/node-abnf/actions/workflows/node.js.yml/badge.svg)](https://github.com/hildjj/node-abnf/actions/workflows/node.js.yml)
+[![codecov](https://codecov.io/gh/hildjj/node-abnf/branch/main/graph/badge.svg?token=waIK6vIrH6)](https://codecov.io/gh/hildjj/node-abnf)
