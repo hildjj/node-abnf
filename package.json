@@ -17,14 +17,14 @@
     "rfc5234",
     "rfc7405"
   ],
-  "directories": {
-    "lib": "./lib",
-    "bin": "./bin"
+  "bin": {
+    "abnf_ast": "bin/abnf_ast.js"
   },
   "main": "lib/abnf",
+  "type": "module",
   "scripts": {
     "lint": "eslint . --ext js && eslint bin/*",
-    "build": "peggy lib/abnfp.peggy",
+    "build": "peggy --format es lib/abnfp.peggy",
     "pretest": "npm run build",
     "test": "ava",
     "coverage": "c8 -r lcov ava"

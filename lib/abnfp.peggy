@@ -1,5 +1,5 @@
 {{
-const ast = require("./ast.js");
+import * as ast from "./ast.js";
 }}
 
 {

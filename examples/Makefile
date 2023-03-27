@@ -3,7 +3,7 @@ peggy = $(patsubst %.abnf,%.peggy,$(abnf))
 js = $(patsubst %.peggy,%.js,$(peggy))
 
 %.peggy: %.abnf
-	../bin/abnf_gen $< -o $@
+	../bin/abnf_gen.js $< -o $@
 
 .PRECIOUS: %.peggy
 %.js: %.peggy

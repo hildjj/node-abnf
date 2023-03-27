@@ -1,12 +1,13 @@
-"use strict";
+import * as abnf from "../lib/abnf.js";
+import * as fs from "fs";
+import * as path from "path";
+import * as stream from "stream";
+import { fileURLToPath } from "url";
+import { removeLoc } from "../lib/utils.js";
+import test from "ava";
 
-const { removeLoc } = require("../lib/utils.js");
-const abnf = require("../lib/abnf.js");
-const fs = require("fs");
-const path = require("path");
-const stream = require("stream");
-const test = require("ava");
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const CORE = path.resolve(__dirname, "..", "examples", "core.abnf");
 
 test("parseString error", t => {

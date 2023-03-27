@@ -1,8 +1,6 @@
-"use strict";
-
-const { readStream } = require("../lib/utils.js");
-const stream = require("stream");
-const test = require("ava");
+import * as stream from "stream";
+import { readStream } from "../lib/utils.js";
+import test from "ava";
 
 test("readStream", async t => {
   const r = new stream.Readable({

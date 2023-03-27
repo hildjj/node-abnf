@@ -1,8 +1,6 @@
-"use strict";
-
-const test = require("ava");
-const abnf = require("../lib/abnf.js");
-const { removeLoc } = require("../lib/utils.js");
+import * as abnf from "../lib/abnf.js";
+import { removeLoc } from "../lib/utils.js";
+import test from "ava";
 
 test("newlines", t => {
   let rules = abnf.parseString("foo = %x20\n");

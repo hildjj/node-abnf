@@ -1,11 +1,9 @@
 #!/usr/bin/env node
-"use strict";
-
-const abnf = require("../lib/abnf.js");
-const { Command } = require("commander");
-const path = require("path");
-const fs = require("fs");
-const { readStream } = require("../lib/utils.js");
+import * as abnf from "../lib/abnf.js";
+import { Command } from "commander";
+import fs from "fs";
+import path from "path";
+import { readStream } from "../lib/utils.js";
 
 const COMBINED = "XXXXXCOMBINEDXXXXX";
 
