@@ -1,15 +1,18 @@
 # Parse ABNF grammars
 
-For more information on ABNF, See [RFC5234](http://tools.ietf.org/html/rfc5234).
+For more information on the flavor of ABNF
+([Augmented Backus-Naur Form](https://en.wikipedia.org/wiki/Augmented_Backus%E2%80%93Naur_form)) supported by this project,
+see [RFC 5234](http://tools.ietf.org/html/rfc5234)
+and [RFC 7405](https://www.rfc-editor.org/rfc/rfc7405).
 
 ## Installation:
 
-    npm install abnf
+    npm install -g abnf
 
 ## Example:
 
-    const abnf = require('abnf');
-    const rules = await abnf.parseFile("myfile.abnf");
+    import { parseFile } from "abnf";
+    const rules = await parseFile("myfile.abnf");
 
 ## CLI
 
@@ -58,37 +61,54 @@ Error: Expected "abc" but "a" found.
 ## API
 
 ### .parseFile(input)
-Parse the file with the given name, returning a promise for a Rules object
 
-### .parseString(input)
-Parse the given string and return a Rules object
+Parse the file with the given name, returning a promise for a Rules object.
 
-### .parseStream(stream)
-Read the stream, parse it, and return a promise for a Rules object.
+### .parseString(input, grammarSource = "unknown")
+
+Parse the given string and return a Rules object.  The `grammarSource` is
+the name of the file that the input came from.
+
+### .parseStream(stream, grammarSource = "stdin")
+
+Read the stream, parse it, and return a promise for a Rules object.  The
+`grammarSource` is the name of the file that the input came from.
+
+## Returned Rules object shape
 
 ### Rules.first
+
 The name of the first rule in the input grammar.
 
 ### Rules.defs
+
 A hash of Rule objects indexed by uppercase rulename.
 
 ### Rules.refs
+
 An array of RuleRef objects.
 
 ### Rule.name
+
 The name of the rule
 
 ### Rule.loc
+
 The Peggy location in the input file where the rule name was defined
 
 ### Rule.def
+
 The definition of the rule.  More information forthcoming.
 
 ### RuleRef.name
+
 The name of the rule that was referenced
 
 ### RuleRef.loc
+
 The Peggy location in the input file where the rule name was referenced.
+
+---
 
 [![Tests](https://github.com/hildjj/node-abnf/actions/workflows/node.js.yml/badge.svg)](https://github.com/hildjj/node-abnf/actions/workflows/node.js.yml)
 [![codecov](https://codecov.io/gh/hildjj/node-abnf/branch/main/graph/badge.svg?token=waIK6vIrH6)](https://codecov.io/gh/hildjj/node-abnf)
