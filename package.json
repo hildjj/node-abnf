@@ -7,6 +7,16 @@
   "repository": {
     "url": "git://github.com/hildjj/node-abnf.git"
   },
+  "keywords": [
+    "grammar",
+    "parser",
+    "generator",
+    "abnf",
+    "Backus–Naur",
+    "rfc",
+    "rfc5234",
+    "rfc7405"
+  ],
   "directories": {
     "lib": "./lib",
     "bin": "./bin"
@@ -20,11 +30,11 @@
     "coverage": "c8 -r lcov ava"
   },
   "dependencies": {
-    "c8": "7.13.0",
     "commander": "^10.0.0",
     "peggy": "^3.0.2"
   },
   "devDependencies": {
+    "c8": "7.13.0",
     "@peggyjs/eslint-config": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
