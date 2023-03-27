@@ -1,8 +1,6 @@
 #!/usr/bin/env node
-"use strict";
-
-const abnf = require("../lib/abnf");
-const { Command } = require("commander");
+import * as abnf from "../lib/abnf.js";
+import { Command } from "commander";
 
 function check_refs(rules) {
   let ret = 0;

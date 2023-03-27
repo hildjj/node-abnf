@@ -1,7 +1,5 @@
-"use strict";
-
-const test = require("ava");
-const abnf = require("../lib/abnf.js");
+import * as abnf from "../lib/abnf.js";
+import test from "ava";
 
 function snapPeggy(t, str, opts) {
   try {

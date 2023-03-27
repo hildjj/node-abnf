@@ -1,13 +1,11 @@
 #!/usr/bin/env node
-"use strict";
-
-const abnf = require("../lib/abnf");
-const { Command } = require("commander");
-const fs = require("fs");
-const path = require("path");
-const peggy = require("peggy");
-const { readStream } = require("../lib/utils.js");
-const util = require("util");
+import * as abnf from "../lib/abnf.js";
+import * as fs from "fs";
+import * as path from "path";
+import * as util from "util";
+import { Command } from "commander";
+import peggy from "peggy";
+import { readStream } from "../lib/utils.js";
 
 const program = new Command();
 program
@@ -105,6 +103,6 @@ program
   })
   .parseAsync()
   .catch(er => {
-    console.error(er.message);
+    console.error(er);
     process.exit(1);
   });

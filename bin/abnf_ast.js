@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-"use strict";
-
-const abnf = require("../lib/abnf.js");
-const { Command } = require("commander");
-const util = require("util");
-const { removeLoc } = require("../lib/utils.js");
+import * as abnf from "../lib/abnf.js";
+import * as util from "util";
+import { Command } from "commander";
+import { removeLoc } from "../lib/utils.js";
 
 function print_ast(rules, opts) {
   for (const r of Object.values(rules.defs)) {

@@ -8,3 +8,5 @@ test/
 examples/
 coverage/
 *.peggy
+.eslintrc.cjs
+.github/
