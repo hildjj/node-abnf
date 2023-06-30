@@ -30,19 +30,29 @@
     "coverage": "c8 -r lcov ava"
   },
   "dependencies": {
-    "commander": "^10.0.0",
+    "commander": "^11.0.0",
     "peggy": "^3.0.2"
   },
   "devDependencies": {
-    "c8": "7.13.0",
-    "@peggyjs/eslint-config": "^3.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
-    "ava": "5.2.0",
-    "eslint": "^8.36.0",
-    "typescript": "^5.0.2"
+    "c8": "8.0.0",
+    "@peggyjs/eslint-config": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "ava": "5.3.1",
+    "eslint": "^8.43.0",
+    "typescript": "^5.1.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "semver": ">=7.5.3",
+      "word-wrap": "npm:@aashutoshrathi/word-wrap"
+    }
+  },
+  "overrides": {
+    "semver": ">=7.5.3",
+    "word-wrap": "npm:@aashutoshrathi/word-wrap"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   }
 }
