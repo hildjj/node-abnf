@@ -18,8 +18,8 @@ test("defined as", t => {
   t.snapshot(removeLoc(rules));
   rules = abnf.parseString("foo ::= %x20\n");
   t.snapshot(removeLoc(rules));
-  rules = abnf.parseString("foo =/ %x20");
-  t.snapshot(removeLoc(rules));
+
+  t.throws(() => abnf.parseString("foo =/ %x20"));
   t.throws(() => abnf.parseString("foo :::= %x20\n"));
 });
 

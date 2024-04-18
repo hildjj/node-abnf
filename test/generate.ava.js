@@ -35,9 +35,6 @@ test("alternate equals", t => {
     `foo = "a"
 
      foo =/ "b"`,
-    `foo =/ "a"
-
-     foo =/ "b"`,
   ].map(snapPeggy.bind(null, t));
 });
 
