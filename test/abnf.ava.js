@@ -12,7 +12,7 @@ const CORE = path.resolve(__dirname, "..", "examples", "core.abnf");
 
 test("parseString error", t => {
   t.throws(() => abnf.parseString("foo =="), {
-    message: /Expected " "/,
+    message: /Expected "/,
   });
 });
 

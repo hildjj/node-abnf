@@ -1,4 +1,6 @@
+coverage/
 node_modules
 pnpm-lock.yaml
 t.abnf
-coverage/
+examples/*.js
+examples/*.peggy
