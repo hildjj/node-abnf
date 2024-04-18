@@ -45,7 +45,7 @@ alternation = head:concatenation tail:(c_wsp* "/" c_wsp* @concatenation)* {
 
 concatenation = head:repetition tail:(c_wsp+ @repetition)* {
   if (tail.length > 0) {
-    return new ast.Concatenation([head, ...tail]);
+    return new ast.Concatenation([head, ...tail], location());
   }
   return head;
 }
