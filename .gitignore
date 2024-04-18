@@ -2,5 +2,4 @@ coverage/
 examples/*.js
 examples/*.peggy
 node_modules
-pnpm-lock.yaml
 t.abnf
