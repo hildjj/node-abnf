@@ -70,7 +70,7 @@ repeat
     }
     return new ast.Repeat(min, max, location());
   }
-  / n:decnum { return new ast.Repeat(n, n); }
+  / n:decnum { return new ast.Repeat(n, n, location()); }
 
 element
   = name:rulename { return rules.addRef(name, location()) }
