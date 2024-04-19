@@ -34,7 +34,7 @@ defined_as = c_wsp* @("=/" / ":"|0..2| "=") c_wsp*
 
 elements = @alternation c_wsp*
 
-comment = ";" $(WSP / VCHAR)* CRLF
+comment = ";" $(WSP / VCHAR)* EOL
 
 alternation = head:concatenation tail:(c_wsp* "/" c_wsp* @concatenation)* {
   if (tail.length > 0) {
@@ -85,7 +85,8 @@ group = "(" c_wsp* alt:alternation c_wsp* ")" {
 }
 
 option = "[" c_wsp* alt:alternation c_wsp* "]" {
-  return new ast.Repetition(new ast.Repeat(0, 1), alt, location());
+  const loc = location();
+  return new ast.Repetition(new ast.Repeat(0, 1, loc), alt, loc);
 }
 
 char_val
@@ -158,8 +159,15 @@ c_wsp
   / WSP
 
 c_nl
-  = CRLF
+  = EOL
   / comment
+
+EOL
+  = CRLF
+  / EOF
+
+EOF
+  = !.
 
 BIT
   = "0"

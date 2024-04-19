@@ -33,7 +33,8 @@
     "build": "peggy --format es lib/abnfp.peggy",
     "pretest": "npm run build",
     "test": "ava",
-    "coverage": "c8 -r lcov ava"
+    "precoverage": "npm run build",
+    "coverage": "c8 ava"
   },
   "dependencies": {
     "commander": "^12.0.0",

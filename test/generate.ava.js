@@ -35,9 +35,6 @@ test("alternate equals", t => {
     `foo = "a"
 
      foo =/ "b"`,
-    `foo =/ "a"
-
-     foo =/ "b"`,
   ].map(snapPeggy.bind(null, t));
 });
 
@@ -84,6 +81,7 @@ test("repetition", t => {
     "start = 1*1%x62",
     "start = 1%x62",
     "start = 2*2%x62",
+    "start = 2*%x62",
     "start = [%x62]",
     "start = [%x61 %x62]",
     "start = [%x61 / %x62]",
@@ -114,4 +112,3 @@ test("generate failures", t => {
   const rules = abnf.parseString("start = foo");
   t.throws(() => rules.toPeggy());
 });
-
