@@ -111,4 +111,3 @@ test("generate failures", t => {
   const rules = abnf.parseString("start = foo");
   t.throws(() => rules.toPeggy());
 });
-
