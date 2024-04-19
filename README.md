@@ -22,10 +22,29 @@ There are a few binaries included:
 
 Check the given ABNF file for correctness.
 
+```
+Usage: abnf_check [options] [abnfFile...]
+
+Check ABNF files for syntax, unused rules, and undefined rules
+
+Options:
+  -h, --help  display help for command
+```
+
 ### abnf_ast
 
-Output the generated abstract syntax tree for the ABNF input.  This output
-is mostly diagnostic in nature, not really meant to be parsed.
+Output the generated abstract syntax tree for the ABNF input.  This output is
+mostly diagnostic in nature, not really meant to be parsed.
+
+```
+Usage: abnf_ast [options] [abnfFile...]
+
+Output all of the rules derived from a given ABNF file
+
+Options:
+  -l,--location  don't remove location information
+  -h, --help     display help for command
+```
 
 ### abnf_gen
 
@@ -33,12 +52,52 @@ Generate a [Peggy](https://peggyjs.org/) grammar from the ABNF.  The idea
 is that you could then annotate this grammar with actions in order to create
 a useful parser.
 
+```
+Usage: abnf_gen [options] [abnfFile...]
+
+Create a Peggy grammar from an ABNF file
+
+Arguments:
+  abnfFile                    ABNF files to turn into peggy grammars.
+
+Options:
+  -s, --startRule <ruleName>  Start rule for peggy grammar.  Defaults to first
+                              rule in ABNF grammar.
+  --stubs                     Generate stubs for rules that do not exist,
+                              rather than failing.
+  -o, --output <file>         Output peggy grammar file name.  Derived from
+                              input file name if not specified. (default:
+                              "stdin.peggy")
+  -u, --unused                Output rules that are not reachable from the
+                              start rule
+  -c, --core                  Include core rules from RFC 5234, Appendix B.
+  -h, --help                  display help for command
+```
+
 ### abnf_test
 
 Using an ABNF, test inputs to see if they match.  Returns the Peggy parse
 tree, which will likely be somewhat confusing until you're familiar with Peggy.
 
-## Workflow
+```
+Usage: abnf_test [options] [abnfFile...]
+
+Send test inputs to an ABNF grammar
+
+Arguments:
+  abnfFile                    The ABNF to test.
+
+Options:
+  -o, --output                Output grammar source, if not testing.  Generated
+                              from peggyFile name if needed.
+  -s, --startRule <ruleName>  When testing, use this as the start rule.
+  -t, --test <string>         String to check against grammar.
+  -T, --testFile <file>       File contents to check against grammar.
+  --trace                     Turn on peggy tracing
+  -h, --help                  display help for command
+```
+
+## Suggested Workflow
 
 ```sh
 $ cat << EOF > foo.abnf
