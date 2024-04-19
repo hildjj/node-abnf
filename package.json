@@ -54,5 +54,11 @@
   },
   "engines": {
     "node": ">=16"
-  }
+  },
+  "contributors": [
+    {
+      "name": "Dominique Hazaël-Massieux",
+      "email": "dom@w3.org"
+    }
+  ]
 }

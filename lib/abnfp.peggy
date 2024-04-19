@@ -45,7 +45,7 @@ alternation = head:concatenation tail:(c_wsp* "/" c_wsp* @concatenation)* {
 
 concatenation = head:repetition tail:(c_wsp+ @repetition)* {
   if (tail.length > 0) {
-    return new ast.Concatenation([head, ...tail]);
+    return new ast.Concatenation([head, ...tail], location());
   }
   return head;
 }
@@ -70,7 +70,7 @@ repeat
     }
     return new ast.Repeat(min, max, location());
   }
-  / n:decnum { return new ast.Repeat(n, n); }
+  / n:decnum { return new ast.Repeat(n, n, location()); }
 
 element
   = name:rulename { return rules.addRef(name, location()) }
