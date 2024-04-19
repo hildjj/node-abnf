@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 import * as abnf from "../lib/abnf.js";
 import { Command } from "commander";
+import { fileURLToPath } from "url";
 import fs from "fs";
 import path from "path";
 import { readStream } from "../lib/utils.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const COMBINED = "XXXXXCOMBINEDXXXXX";
 
@@ -95,6 +99,6 @@ program
   })
   .parseAsync()
   .catch(er => {
-    console.error(er);
+    console.error(er.message);
     process.exit(1);
   });

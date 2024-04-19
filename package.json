@@ -1,8 +1,14 @@
 {
-  "author": "Joe Hildebrand <joe-github@cursive.net>",
   "name": "abnf",
   "description": "Augmented Backus-Naur Form (ABNF) parsing.  See RFC 5234.",
   "version": "2.0.0",
+  "author": "Joe Hildebrand <joe-github@cursive.net>",
+  "contributors": [
+    {
+      "name": "Dominique Hazaël-Massieux",
+      "email": "dom@w3.org"
+    }
+  ],
   "homepage": "https://github.com/hildjj/node-abnf",
   "repository": {
     "url": "git://github.com/hildjj/node-abnf.git"
@@ -23,42 +29,27 @@
   "main": "lib/abnf",
   "type": "module",
   "scripts": {
-    "lint": "eslint . --ext js && eslint bin/*",
+    "lint": "eslint .",
     "build": "peggy --format es lib/abnfp.peggy",
     "pretest": "npm run build",
     "test": "ava",
     "coverage": "c8 -r lcov ava"
   },
   "dependencies": {
-    "commander": "^11.0.0",
-    "peggy": "^3.0.2"
+    "commander": "^12.0.0",
+    "peggy": "^4.0.2"
   },
   "devDependencies": {
-    "c8": "8.0.0",
-    "@peggyjs/eslint-config": "^3.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
-    "ava": "5.3.1",
-    "eslint": "^8.43.0",
-    "typescript": "^5.1.6"
+    "c8": "9.1.0",
+    "@peggyjs/eslint-config": "^3.2.4",
+    "@typescript-eslint/eslint-plugin": "^7.7.0",
+    "@typescript-eslint/parser": "^7.7.0",
+    "ava": "6.1.2",
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.5"
   },
-  "pnpm": {
-    "overrides": {
-      "semver": ">=7.5.3",
-      "word-wrap": "npm:@aashutoshrathi/word-wrap"
-    }
-  },
-  "overrides": {
-    "semver": ">=7.5.3",
-    "word-wrap": "npm:@aashutoshrathi/word-wrap"
-  },
+  "packageManager": "pnpm@9.0.2+sha256.d6fc013639b81658ff175829ebb9435bcb89eff206769e460fd3ae27c2054df6",
   "engines": {
-    "node": ">=16"
-  },
-  "contributors": [
-    {
-      "name": "Dominique Hazaël-Massieux",
-      "email": "dom@w3.org"
-    }
-  ]
+    "node": ">=18"
+  }
 }
