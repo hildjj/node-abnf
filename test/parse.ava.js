@@ -1,6 +1,6 @@
 import * as abnf from "../lib/abnf.js";
+import { removeLoc, visit } from "../lib/utils.js";
 import { parse } from "../lib/abnfp.js";
-import { removeLoc } from "../lib/utils.js";
 import test from "ava";
 
 test("newlines", t => {
@@ -19,7 +19,17 @@ test("defined as", t => {
   t.snapshot(removeLoc(rules));
   rules = abnf.parseString("f ::= %x20");
   t.snapshot(removeLoc(rules));
-  rules = abnf.parseString("foo = %x19 / %x20\nfoo =/ %x21\nfoo =/ %x22 / %x23\n");
+  rules = abnf.parseString(`\
+foo = %x19 / %x20
+foo =/ %x21
+foo =/ %x22 / %x23
+foo =/ (%x24 / %x25)
+foo =/ (%x26 / %x27) / %x28
+foo =/ (%x29 / %x2a) / (%x2b / %x2c)
+foo =/ %x29 / %x2a / (%x2b / %x2c)
+foo =/ %x29 / %x2a / %x2b / (%x2c)
+foo =/ %x29 / %x2a / %x2b / %x2c
+`);
   t.snapshot(removeLoc(rules));
 
   t.throws(() => abnf.parseString("foo =/ %x20"));
@@ -131,4 +141,24 @@ test("parser edges", t => {
     peg$library: true,
   });
   t.truthy(ret.peg$FAILED);
+});
+
+test("location", t => {
+  // Try to get one of everything in here
+  const rules = abnf.parseString(`
+foo = %x20
+foo =/ 2*"foo"
+foo =/ *2"foot"
+foo =/ (%s"bar" / %i"bare")
+foo =/ "one" ["two"]
+foo =/ %b1010 %d32 %x25
+foo =/ %b1010.1011 %d32.33 %x25.26
+foo =/ %b1010-1011 %d32-33 %x25-26
+prose = <Some prose>
+`);
+  visit(rules, n => {
+    if (n.type) {
+      t.truthy(n.loc, n.type);
+    }
+  });
 });

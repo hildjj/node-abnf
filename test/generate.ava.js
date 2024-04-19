@@ -81,6 +81,7 @@ test("repetition", t => {
     "start = 1*1%x62",
     "start = 1%x62",
     "start = 2*2%x62",
+    "start = 2*%x62",
     "start = [%x62]",
     "start = [%x61 %x62]",
     "start = [%x61 / %x62]",

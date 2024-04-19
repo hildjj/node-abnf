@@ -85,7 +85,8 @@ group = "(" c_wsp* alt:alternation c_wsp* ")" {
 }
 
 option = "[" c_wsp* alt:alternation c_wsp* "]" {
-  return new ast.Repetition(new ast.Repeat(0, 1), alt, location());
+  const loc = location();
+  return new ast.Repetition(new ast.Repeat(0, 1, loc), alt, loc);
 }
 
 char_val
