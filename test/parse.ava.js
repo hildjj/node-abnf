@@ -2,6 +2,7 @@ import * as abnf from "../lib/abnf.js";
 import { removeLoc, visit } from "../lib/utils.js";
 import { parse } from "../lib/abnfp.js";
 import test from "ava";
+import { testPeggy } from "@peggyjs/coverage";
 
 test("newlines", t => {
   let rules = abnf.parseString("foo = %x20\n");
@@ -88,6 +89,9 @@ test("failures", t => {
   t.throws(() => abnf.parseString("foo = %x1-\x80"));
   t.throws(() => abnf.parseString("foo = %x1-10\x80"));
   t.throws(() => abnf.parseString("foo"));
+  t.throws(() => abnf.parseString("foo = %x20 / /"));
+  t.throws(() => abnf.parseString("foo = %x20 /"));
+  t.throws(() => abnf.parseString("foo = %x20 / %x20 / "));
 });
 
 test("prose", t => {
@@ -161,4 +165,49 @@ prose = <Some prose>
       t.truthy(n.loc, n.type);
     }
   });
+});
+
+test("testPeggy", async t => {
+  const starts = [
+    {
+      validInput: "foo = %x20\n",
+      validResult(rules) {
+        const res = removeLoc(rules);
+        t.snapshot(res);
+        return res;
+      },
+      peg$maxFailPos: 11,
+    },
+    {
+      invalidInput: "",
+    },
+    {
+      invalidInput: "foo",
+      options: {
+        peg$silentFails: -1,
+      },
+    },
+    {
+      validInput: " ",
+      invalidInput: "a",
+      options: {
+        peg$startRuleFunction: "peg$parseSP",
+      },
+    },
+    {
+      validInput: "\t",
+      invalidInput: "a",
+      options: {
+        peg$startRuleFunction: "peg$parseHTAB",
+      },
+    },
+    {
+      validInput: "!",
+      invalidInput: " ",
+      options: {
+        peg$startRuleFunction: "peg$parseVCHAR",
+      },
+    },
+  ];
+  await testPeggy(new URL("../lib/abnfp.js", import.meta.url), starts);
 });
