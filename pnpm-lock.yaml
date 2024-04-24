@@ -15,6 +15,9 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
     devDependencies:
+      '@peggyjs/coverage':
+        specifier: 1.0.0
+        version: 1.0.0
       '@peggyjs/eslint-config':
         specifier: ^3.2.4
         version: 3.2.4(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5))(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)
@@ -104,6 +107,10 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@peggyjs/coverage@1.0.0':
+    resolution: {integrity: sha512-SmmQRmUkZm3U6oLN1ilk7IISJMaaXfHuWcnCNLGzXZgEya5Us2cSlvq5WH9XM7g/3e9IDhp4pdXKT77x7Ll2aQ==}
+    engines: {node: '>=18'}
 
   '@peggyjs/eslint-config@3.2.4':
     resolution: {integrity: sha512-Mj6F0U2Sf8Pc3c9HA3N+4GswSWf4yaeiRQV7AmdUZNLUzieDllMLf9QWzV/vSkjo/FiDa9Yu2DOTmiEdpxJ5nA==}
@@ -1309,6 +1316,11 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
+
+  '@peggyjs/coverage@1.0.0':
+    dependencies:
+      peggy: 4.0.2
+      source-map-generator: 0.8.0
 
   '@peggyjs/eslint-config@3.2.4(@typescript-eslint/eslint-plugin@7.7.0(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5))(@typescript-eslint/parser@7.7.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)':
     dependencies:
