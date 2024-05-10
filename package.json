@@ -24,7 +24,10 @@
     "rfc7405"
   ],
   "bin": {
+    "abnf_check": "bin/abnf_check.js"
     "abnf_ast": "bin/abnf_ast.js"
+    "abnf_gen": "bin/abnf_gen.js"
+    "abnf_test": "bin/abnf_test.js"
   },
   "main": "lib/abnf",
   "type": "module",
