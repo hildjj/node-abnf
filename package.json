@@ -7,6 +7,10 @@
     {
       "name": "Dominique Hazaël-Massieux",
       "email": "dom@w3.org"
+    },
+    {
+      "name": "ZP-ZPanda",
+      "email": "zp.zpanda@gmail.com"
     }
   ],
   "homepage": "https://github.com/hildjj/node-abnf",
@@ -24,9 +28,9 @@
     "rfc7405"
   ],
   "bin": {
-    "abnf_check": "bin/abnf_check.js"
-    "abnf_ast": "bin/abnf_ast.js"
-    "abnf_gen": "bin/abnf_gen.js"
+    "abnf_check": "bin/abnf_check.js",
+    "abnf_ast": "bin/abnf_ast.js",
+    "abnf_gen": "bin/abnf_gen.js",
     "abnf_test": "bin/abnf_test.js"
   },
   "main": "lib/abnf",
