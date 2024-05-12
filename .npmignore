@@ -13,3 +13,4 @@ node_modules
 pnpm-lock.yaml
 t.abnf
 test/
+.ncurc
