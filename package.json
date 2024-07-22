@@ -33,7 +33,7 @@
     "abnf_gen": "bin/abnf_gen.js",
     "abnf_test": "bin/abnf_test.js"
   },
-  "main": "lib/abnf",
+  "main": "lib/abnf.js",
   "type": "module",
   "scripts": {
     "lint": "eslint .",
