@@ -4,6 +4,7 @@
 .eslintrc.js
 .gitattributes
 .github/
+.ncurc
 .vscode/
 *.peggy
 coverage/
@@ -13,4 +14,3 @@ node_modules
 pnpm-lock.yaml
 t.abnf
 test/
-.ncurc

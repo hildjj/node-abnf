@@ -31,6 +31,7 @@ program
       const abnfSource = await readStream(s);
       let testText = null;
       let testSource = null;
+      // eslint-disable-next-line no-useless-assignment
       let text = null;
       try {
         const rules = await abnf.parseString(abnfSource, f);
@@ -48,7 +49,6 @@ program
         if (typeof opts.test === "string") {
           testSource = "command line";
           testText = opts.test;
-          // eslint-disable-next-line no-eval -- Required
           const parseOpts = {
             grammarSource: testSource,
           };
@@ -65,7 +65,6 @@ program
         } else if (opts.testFile) {
           testSource = opts.testFile;
           testText = fs.readFileSync(opts.testFile, "utf8");
-          // eslint-disable-next-line no-eval -- Required
           console.log(util.inspect(parser.parse(testText, {
             grammarSource: testSource,
           }), {

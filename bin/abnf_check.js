@@ -34,6 +34,7 @@ program
       files.push("-");
     }
     for (const f of files) {
+      // eslint-disable-next-line no-useless-assignment
       let rules = null;
       try {
         if (f === "-") {
