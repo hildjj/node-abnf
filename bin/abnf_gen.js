@@ -54,6 +54,7 @@ program
     let lines = 0;
     const file_offsets = [];
     for (const f of files) {
+      // eslint-disable-next-line no-useless-assignment
       let text = null;
       if (f === "-") {
         text = await readStream(process.stdin);
