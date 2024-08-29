@@ -83,7 +83,8 @@ program
     }
 
     try {
-      const rules = abnf.parseString(input, COMBINED);
+      const utf16 = opts.format === "peggy";
+      const rules = abnf.parseString(input, COMBINED, utf16);
       genFormat(rules, opts);
     } catch (er) {
       if (typeof er.format === "function") {
