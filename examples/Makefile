@@ -1,16 +1,20 @@
 abnf = $(wildcard *.abnf)
 peggy = $(patsubst %.abnf,%.peggy,$(abnf))
+pest = $(patsubst %.abnf,%.pest,$(abnf))
 js = $(patsubst %.peggy,%.js,$(peggy))
 
 %.peggy: %.abnf
 	../bin/abnf_gen.js $< -uo $@
+
+%.pest: %.abnf
+	../bin/abnf_gen.js -f pest $< -uo $@
 
 .PRECIOUS: %.peggy
 %.js: %.peggy
 	npx peggy $< -o $@
 
 .PHONY: all
-all: $(js)
+all: $(js) $(pest)
 
 .PHONY: clean
 clean:

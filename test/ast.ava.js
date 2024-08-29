@@ -35,3 +35,9 @@ test("nested alternates", t => {
   const a = new ast.Alternation(alts, loc);
   t.truthy(a);
 });
+
+test("Deprecated toPeggy", t => {
+  const r = new ast.Rules();
+  const p = r.toPeggy();
+  t.is(p, "");
+});

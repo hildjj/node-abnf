@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as abnf from "../lib/abnf.js";
-import { Command } from "commander";
+import { Command, Option } from "commander";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import path from "path";
@@ -11,8 +11,8 @@ const __dirname = path.dirname(__filename);
 
 const COMBINED = "XXXXXCOMBINEDXXXXX";
 
-function gen_peggy(rules, opts) {
-  const out = rules.toPeggy(opts);
+function genFormat(rules, opts) {
+  const out = rules.toFormat(opts);
   if (opts.output === "-") {
     console.log(out);
   } else {
@@ -22,16 +22,21 @@ function gen_peggy(rules, opts) {
 
 const program = new Command();
 program
-  .argument("[abnfFile...]", "ABNF files to turn into peggy grammars.")
-  .description("Create a Peggy grammar from an ABNF file")
+  .argument("[abnfFile...]", "ABNF files to turn into grammars.")
+  .description("Create a grammar from an ABNF file")
+  .addOption(
+    new Option("-f, --format <format>", "Output format")
+      .choices(["peggy", "pest"])
+      .default("peggy")
+  )
   .option(
     "-s, --startRule <ruleName>",
-    "Start rule for peggy grammar.  Defaults to first rule in ABNF grammar."
+    "Start rule for generated grammar.  Defaults to first rule in ABNF grammar."
   )
   .option("--stubs", "Generate stubs for rules that do not exist, rather than failing.")
   .option(
     "-o, --output <file>",
-    "Output peggy grammar file name.  Derived from input file name if not specified.",
+    "Output grammar file name.  Derived from input file name if not specified.",
     "stdin.peggy"
   )
   .option(
@@ -62,7 +67,7 @@ program
         if (cmd.getOptionValueSource("output") === "default") {
           const p = path.parse(f);
           delete p.base;
-          p.ext = ".peggy";
+          p.ext = `.${opts.format}`;
           cmd.setOptionValueWithSource("output", path.format(p), "first");
         }
         text = fs.readFileSync(f, "utf8");
@@ -79,7 +84,7 @@ program
 
     try {
       const rules = abnf.parseString(input, COMBINED);
-      gen_peggy(rules, opts);
+      genFormat(rules, opts);
     } catch (er) {
       if (typeof er.format === "function") {
         const line = er.location.start.line;

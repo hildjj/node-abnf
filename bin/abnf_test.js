@@ -35,7 +35,7 @@ program
       let text = null;
       try {
         const rules = await abnf.parseString(abnfSource, f);
-        text = rules.toPeggy(opts);
+        text = rules.toFormat(opts);
 
         const abnfOpts = {
           grammarSource: f,

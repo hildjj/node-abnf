@@ -1,2 +1,22 @@
+*.cjs text eol=lf
+*.css text eol=lf
+*.csv text eol=lf
+*.html text eol=lf
+*.ico binary
+*.jpg binary
+*.js text eol=lf
+*.json text eol=lf
+*.map text eol=lf
+*.mjs text eol=lf
+*.mk text eol=lf
+*.pdf binary
+*.peg.js text eol=lf linguist-language=PEG.js
+*.peggy text eol=lf linguist-language=PEG.js
+*.pegjs text eol=lf linguist-language=PEG.js
+*.png binary
+*.rs text eol=lf
+*.ts text eol=lf
+*.tsv text eol=lf
+*.tsx text eol=lf
 examples/*.abnf eol=crlf
-
+Makefile text eol=lf
