@@ -112,3 +112,10 @@ test("generate failures", t => {
   const rules = abnf.parseString("start = foo");
   t.throws(() => rules.toFormat());
 });
+
+test("pest", t => {
+  snapPeggy(t, `
+foo = "foo" / %s"bar" / %x00-60
+    / "baz"
+`, { format: "pest" });
+});

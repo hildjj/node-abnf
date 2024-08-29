@@ -49,3 +49,19 @@ test("Deprecated toPeggy", t => {
   const p = r.toPeggy();
   t.is(p, "");
 });
+
+test("bad format", t => {
+  const opts = {
+    format: "__invalid__",
+  };
+  const check = { message: /Unknown format/ };
+  t.throws(() => new ast.Rules().toFormat(opts), check);
+  t.throws(() => new ast.CaseInsensitiveString("foo", {}).toFormat(opts), check);
+  t.throws(() => new ast.Concatenation([], {}).toFormat(opts), check);
+  t.throws(() => new ast.Alternation([], {}).toFormat(opts), check);
+  t.throws(() => new ast.Repetition([], {}, {}).toFormat(opts), check);
+  t.throws(() => new ast.Repetition([], {}, {}).toFormat(opts), check);
+  t.throws(() => new ast.Range(10, 1, 2, {}).toFormat(opts), check);
+  t.throws(() => new ast.Rule("foo", [], {}).toFormat(opts), check);
+  t.throws(() => ast.Range.escape(opts, 1));
+});
