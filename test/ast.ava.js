@@ -2,9 +2,17 @@ import * as ast from "../lib/ast.js";
 import test from "ava";
 
 test("range escape", t => {
-  t.throws(() => ast.Range.escape(0x10000));
-  t.is(ast.Range.escape(0x7c), "\\x7c");
-  t.is(ast.Range.escape(0x100), "\\u0100");
+  const opts = {
+    format: "peggy",
+  };
+  t.throws(() => ast.Range.escape(opts, 0x10000));
+  t.is(ast.Range.escape(opts, 0x7c), "\\x7c");
+  t.is(ast.Range.escape(opts, 0x100), "\\u0100");
+
+  opts.format = "pest";
+  t.notThrows(() => ast.Range.escape(opts, 0x10000));
+  t.is(ast.Range.escape(opts, 0x7c), "'\\u{7c}'");
+  t.is(ast.Range.escape(opts, 0x100), "'\\u{100}'");
 });
 
 test("bad base class types", t => {
@@ -34,4 +42,26 @@ test("nested alternates", t => {
   ];
   const a = new ast.Alternation(alts, loc);
   t.truthy(a);
+});
+
+test("Deprecated toPeggy", t => {
+  const r = new ast.Rules();
+  const p = r.toPeggy();
+  t.is(p, "");
+});
+
+test("bad format", t => {
+  const opts = {
+    format: "__invalid__",
+  };
+  const check = { message: /Unknown format/ };
+  t.throws(() => new ast.Rules().toFormat(opts), check);
+  t.throws(() => new ast.CaseInsensitiveString("foo", {}).toFormat(opts), check);
+  t.throws(() => new ast.Concatenation([], {}).toFormat(opts), check);
+  t.throws(() => new ast.Alternation([], {}).toFormat(opts), check);
+  t.throws(() => new ast.Repetition([], {}, {}).toFormat(opts), check);
+  t.throws(() => new ast.Repetition([], {}, {}).toFormat(opts), check);
+  t.throws(() => new ast.Range(10, 1, 2, {}).toFormat(opts), check);
+  t.throws(() => new ast.Rule("foo", [], {}).toFormat(opts), check);
+  t.throws(() => ast.Range.escape(opts, 1));
 });

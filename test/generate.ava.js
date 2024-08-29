@@ -3,7 +3,7 @@ import test from "ava";
 
 function snapPeggy(t, str, opts) {
   try {
-    const rules = abnf.parseString(str, "snapPeggy").toPeggy(opts);
+    const rules = abnf.parseString(str, "snapPeggy").toFormat(opts);
     t.snapshot(rules, str);
   } catch (e) {
     if (e.format) {
@@ -110,5 +110,12 @@ test("opts", t => {
 
 test("generate failures", t => {
   const rules = abnf.parseString("start = foo");
-  t.throws(() => rules.toPeggy());
+  t.throws(() => rules.toFormat());
+});
+
+test("pest", t => {
+  snapPeggy(t, `
+foo = "foo" / %s"bar" / %x00-60
+    / "baz"
+`, { format: "pest" });
 });

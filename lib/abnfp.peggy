@@ -114,7 +114,7 @@ bin_val
     );
   }
   / "b"i min:binnum "-" max:binnum {
-    return ast.Range.create(2, min, max, location());
+    return ast.Range.create(2, min, max, location(), options.utf16);
   }
   / "b"i n:binnum {
     return new ast.CaseSensitiveString(String.fromCodePoint(n), 2, location())
@@ -129,7 +129,7 @@ dec_val
     );
   }
   / "d"i min:decnum "-" max:decnum {
-    return ast.Range.create(10, min, max, location());
+    return ast.Range.create(10, min, max, location(), options.utf16);
   }
   / "d"i n:decnum {
     return new ast.CaseSensitiveString(String.fromCodePoint(n), 10, location())
@@ -144,7 +144,7 @@ hex_val
     );
   }
   / "x"i min:hexnum "-" max:hexnum {
-    return ast.Range.create(16, min, max, location());
+    return ast.Range.create(16, min, max, location(), options.utf16);
   }
   / "x"i n:hexnum {
     return new ast.CaseSensitiveString(String.fromCodePoint(n), 10, location())
