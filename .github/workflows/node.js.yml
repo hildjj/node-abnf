@@ -3,16 +3,17 @@ name: Tests
 on:
   push:
     branches:
-      - 'main'
+      - main
   pull_request:
-    branches: ['*']
+    branches:
+      - main
 
 jobs:
   build:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 21.x, 22.x]
+        node-version: [18.x, 20.x, 21.x, 22.x, 23.x]
         os: [ubuntu-latest]
 
     runs-on: ${{ matrix.os }}
@@ -33,4 +34,3 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: hildjj/node-abnf
