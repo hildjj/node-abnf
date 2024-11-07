@@ -22,7 +22,7 @@ There are a few binaries included:
 
 Check the given ABNF file for correctness.
 
-```
+```txt
 Usage: abnf_check [options] [abnfFile...]
 
 Check ABNF files for syntax, unused rules, and undefined rules
@@ -36,7 +36,7 @@ Options:
 Output the generated abstract syntax tree for the ABNF input.  This output is
 mostly diagnostic in nature, not really meant to be parsed.
 
-```
+```txt
 Usage: abnf_ast [options] [abnfFile...]
 
 Output all of the rules derived from a given ABNF file
@@ -52,7 +52,7 @@ Generate a [Peggy](https://peggyjs.org/) grammar from the ABNF.  The idea
 is that you could then annotate this grammar with actions in order to create
 a useful parser.
 
-```
+```txt
 Usage: abnf_gen [options] [abnfFile...]
 
 Create a Peggy grammar from an ABNF file
@@ -79,7 +79,7 @@ Options:
 Using an ABNF, test inputs to see if they match.  Returns the Peggy parse
 tree, which will likely be somewhat confusing until you're familiar with Peggy.
 
-```
+```txt
 Usage: abnf_test [options] [abnfFile...]
 
 Send test inputs to an ABNF grammar
