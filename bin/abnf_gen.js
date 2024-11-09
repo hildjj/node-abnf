@@ -20,6 +20,11 @@ function genFormat(rules, opts) {
   }
 }
 
+function append(v, p = []) {
+  p.push(v);
+  return p;
+}
+
 const program = new Command();
 program
   .argument("[abnfFile...]", "ABNF files to turn into grammars.")
@@ -31,7 +36,8 @@ program
   )
   .option(
     "-s, --startRule <ruleName>",
-    "Start rule for generated grammar.  Defaults to first rule in ABNF grammar."
+    "Start rule for generated grammar.  Defaults to first rule in ABNF grammar.  Can be specified multiple times.",
+    append
   )
   .option("--stubs", "Generate stubs for rules that do not exist, rather than failing.")
   .option(

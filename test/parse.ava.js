@@ -130,7 +130,7 @@ binarySep = %b1100001 %b1100010 %b1100011
 
 test("parser edges", t => {
   t.throws(() => parse("", {
-    startRule: "___INVALID____",
+    startRule: ["___INVALID____"],
   }));
 
   parse("foo = %x20\n", {
