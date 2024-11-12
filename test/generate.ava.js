@@ -86,6 +86,14 @@ test("repetition", t => {
     "start = [%x61 %x62]",
     "start = [%x61 / %x62]",
     "start = *(%x61 / %x62)",
+    "start = #%x62",
+    "start = 1#%x62",
+    "start = #1%x62",
+    "start = 1#2%x62",
+    "start = #(%x61 / %x62)",
+    "start = 1#(%x61 / %x62)",
+    "start = #1(%x61 / %x62)",
+    "start = 1#2(%x61 / %x62)",
   ].map(snapPeggy.bind(null, t));
 });
 

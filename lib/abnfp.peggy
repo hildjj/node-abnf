@@ -36,21 +36,21 @@ elements = @alternation c_wsp*
 
 comment = ";" $(WSP / VCHAR)* EOL
 
-alternation = head:concatenation tail:(c_wsp* "/" c_wsp* @concatenation)* {
-  if (tail.length > 0) {
-    return new ast.Alternation([head, ...tail], location());
+alternation = alts:concatenation|1.., c_wsp* "/" c_wsp*| {
+  if (alts.length > 1) {
+    return new ast.Alternation(alts, location());
   }
-  return head;
+  return alts[0];
 }
 
-concatenation = head:repetition tail:(c_wsp+ @repetition)* {
-  if (tail.length > 0) {
-    return new ast.Concatenation([head, ...tail], location());
+concatenation = reps:repetition|1.., c_wsp+| {
+  if (reps.length > 1) {
+    return new ast.Concatenation(reps, location());
   }
-  return head;
+  return reps[0];
 }
 
-repetition = repeat:repeat? e:element {
+repetition = repeat:(hash_repeat / repeat)? e:element {
   if (repeat) {
     return new ast.Repetition(repeat, e, location());
   }
@@ -71,6 +71,20 @@ repeat
     return new ast.Repeat(min, max, location());
   }
   / n:decnum { return new ast.Repeat(n, n, location()); }
+
+hash_repeat
+  = min:decnum? "#" max:decnum? {
+    min |= 0;
+    if (max === 0) {
+      error("max must not be zero");
+      return;
+    }
+    if ((typeof max === "number") && (max < min)) {
+      error(`max must be greater than or equal to min, but ${max} < ${min}`)
+      return;
+    }
+    return new ast.HashRepeat(min, max, location());
+  }
 
 element
   = name:rulename { return rules.addRef(name, location()) }
