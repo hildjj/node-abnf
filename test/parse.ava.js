@@ -48,9 +48,11 @@ test("failures", t => {
   t.throws(() => abnf.parseString("foo = (   )\n"));
   // Invalid repeat
   t.throws(() => abnf.parseString("foo = *0%60\n"));
+  t.throws(() => abnf.parseString("foo = #0%60\n"));
   t.throws(() => abnf.parseString("foo = 0*0%60\n"));
   t.throws(() => abnf.parseString("foo = 1*0%60\n"));
   t.throws(() => abnf.parseString("foo = 3*2%60\n"));
+  t.throws(() => abnf.parseString("foo = 3#2%60\n"));
   t.throws(() => abnf.parseString("; \x80\nfoo = %x20"));
   t.throws(() => abnf.parseString(";\x80\nfoo = %x20"));
   t.throws(() => abnf.parseString("foo = -"));
