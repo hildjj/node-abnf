@@ -39,6 +39,11 @@ test("range utf16", t => {
     r.toFormat({ format: "peggy" }),
     '"\\ud800" [\\udc04-\\udfff] / [\\ud801-\\ud803] [\\udc00-\\udfff]'
   );
+  r = ast.Range.create(16, 0x10004, 0x10bff, {}, false);
+  t.is(
+    r.toFormat({ format: "pest" }),
+    "'\\u{10004}'..'\\u{10bff}'"
+  );
   r = ast.Range.create(16, 0, 0x10ffff, {});
   t.is(
     r.toFormat({ format: "peggy" }),
