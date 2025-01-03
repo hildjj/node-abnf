@@ -39,6 +39,16 @@ test("range utf16", t => {
     r.toFormat({ format: "peggy" }),
     '"\\ud800" [\\udc04-\\udfff] / [\\ud801-\\ud803] [\\udc00-\\udfff]'
   );
+  r = ast.Range.create(16, 0, 0x10ffff, {});
+  t.is(
+    r.toFormat({ format: "peggy" }),
+    "[\\x00-\\ud7ff] / [\\ue000-\\uffff] / [\\ud800-\\udbff] [\\udc00-\\udfff]"
+  );
+  r = ast.Range.create(16, 0xee, 0xef, {});
+  t.is(
+    r.toFormat({ format: "pest" }),
+    "'\\u{ee}'..'\\u{ef}'"
+  );
 });
 
 test("bad base class types", t => {
