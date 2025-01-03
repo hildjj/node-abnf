@@ -15,6 +15,32 @@ test("range escape", t => {
   t.is(ast.Range.escape(opts, 0x100), "'\\u{100}'");
 });
 
+test("range utf16", t => {
+  t.throws(() => ast.Range.create(16, 5, 4, {}));
+  let r = ast.Range.create(16, 20, 20, {});
+  t.is(r.type, "caseSensitveString");
+  t.throws(() => ast.Range.create(16, 0xd801, 0xd805, {}));
+  r = ast.Range.create(16, 0xe001, 0xffff, {});
+  t.is(r.type, "range");
+  t.is(r.first, 0xe001);
+  t.is(r.last, 0xffff);
+  r = ast.Range.create(16, 0x10004, 0x10401, {});
+  t.is(
+    r.toFormat({ format: "peggy" }),
+    '"\\ud800" [\\udc04-\\udfff] / "\\ud801" [\\udc00\\udc01]'
+  );
+  r = ast.Range.create(16, 0x10004, 0x10c01, {});
+  t.is(
+    r.toFormat({ format: "peggy" }),
+    '"\\ud800" [\\udc04-\\udfff] / [\\ud801\\ud802] [\\udc00-\\udfff] / "\\ud803" [\\udc00\\udc01]'
+  );
+  r = ast.Range.create(16, 0x10004, 0x10bff, {});
+  t.is(
+    r.toFormat({ format: "peggy" }),
+    '"\\ud800" [\\udc04-\\udfff] / [\\ud801-\\ud803] [\\udc00-\\udfff]'
+  );
+});
+
 test("bad base class types", t => {
   t.throws(() => new ast.Base());
   t.throws(() => new ast.Range("", 0, 1));
