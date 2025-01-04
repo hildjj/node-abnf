@@ -112,6 +112,6 @@ program
   })
   .parseAsync()
   .catch(er => {
-    console.error(er.message);
+    console.error(er);
     process.exit(1);
   });

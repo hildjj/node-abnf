@@ -5,3 +5,4 @@ examples/*.peggy
 examples/*.pest
 node_modules
 t.abnf
+.cert/
