@@ -2,6 +2,7 @@
   "name": "abnf",
   "description": "Augmented Backus-Naur Form (ABNF) parsing.  See RFC 5234.",
   "version": "4.3.0",
+  "license": "Apache-2.0",
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "contributors": [
     {
@@ -60,16 +61,15 @@
   "devDependencies": {
     "@peggyjs/coverage": "1.3.2",
     "@peggyjs/eslint-config": "^5.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.19.0",
-    "@typescript-eslint/parser": "^8.19.0",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
     "ava": "6.2.0",
     "c8": "10.1.3",
     "eslint": "^9.17.0",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
-  "packageManager": "pnpm@9.15.2",
+  "packageManager": "pnpm@9.15.3",
   "engines": {
     "node": ">=18"
-  },
-  "license": "Apache-2.0"
+  }
 }
