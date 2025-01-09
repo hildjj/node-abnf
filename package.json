@@ -11,6 +11,10 @@
     {
       "name": "ZP-ZPanda",
       "email": "zp.zpanda@gmail.com"
+    },
+    {
+      "name": "Steven R. Loomis",
+      "email": "srl295@codehivetx.us"
     }
   ],
   "homepage": "https://github.com/hildjj/node-abnf",
@@ -66,5 +70,6 @@
   "packageManager": "pnpm@9.15.2",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "license": "Apache-2.0"
 }

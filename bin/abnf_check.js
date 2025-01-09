@@ -2,28 +2,6 @@
 import * as abnf from "../lib/abnf.js";
 import { Command } from "commander";
 
-function check_refs(rules) {
-  let ret = 0;
-  rules.refs.forEach(ref => {
-    if (!Object.prototype.hasOwnProperty.call(
-      rules.defs,
-      ref.name.toUpperCase()
-    )) {
-      const loc = ref.loc;
-      console.log(`Reference to unknown rule "${ref.name}" at ${loc.source}:${loc.start.line}`);
-      ret = 3;
-    }
-  });
-  for (const name in rules.defs) {
-    if ((rules.findRefs(name).length === 0) && (name !== rules.first)) {
-      const loc = rules.defs[name].loc;
-      console.log(`Unreferenced rule "${name}" at ${loc.source}:${loc.start.line}`);
-      ret = 3;
-    }
-  }
-  return ret;
-}
-
 let exitCode = 0;
 const program = new Command();
 program
@@ -55,9 +33,12 @@ program
         }
         throw er;
       }
-      const cr = check_refs(rules, opts);
-      if (cr) {
-        exitCode = cr;
+      const errs = abnf.checkRefs(rules, opts);
+      if (errs) {
+        for (const err of errs) {
+          console.error(err);
+        }
+        exitCode = 3;
       }
     }
   })

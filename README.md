@@ -133,6 +133,10 @@ the name of the file that the input came from.
 Read the stream, parse it, and return a promise for a Rules object.  The
 `grammarSource` is the name of the file that the input came from.
 
+### .checkRefs(rules)
+
+This is used by the `abnf_check` utility, and returns null if there are no reference errors, otherwise returns an array of error strings. Checks for unused or undefined rules.
+
 ## Returned Rules object shape
 
 ### Rules.first
