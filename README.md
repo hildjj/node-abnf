@@ -48,28 +48,30 @@ Options:
 
 ### abnf_gen
 
-Generate a [Peggy](https://peggyjs.org/) grammar from the ABNF.  The idea
-is that you could then annotate this grammar with actions in order to create
-a useful parser.
+Generate a [Peggy](https://peggyjs.org/) or [Pest](https://pest.rs/) grammar
+from the ABNF.  The idea is that you could then annotate this grammar with
+actions in order to create a useful parser.
 
 ```txt
 Usage: abnf_gen [options] [abnfFile...]
 
-Create a Peggy grammar from an ABNF file
+Create a grammar from an ABNF file
 
 Arguments:
-  abnfFile                    ABNF files to turn into peggy grammars.
+  abnfFile                    ABNF files to turn into grammars.
 
 Options:
-  -s, --startRule <ruleName>  Start rule for peggy grammar.  Defaults to first
-                              rule in ABNF grammar.
-  --stubs                     Generate stubs for rules that do not exist,
-                              rather than failing.
-  -o, --output <file>         Output peggy grammar file name.  Derived from
-                              input file name if not specified. (default:
-                              "stdin.peggy")
-  -u, --unused                Output rules that are not reachable from the
-                              start rule
+  -f, --format <format>       Output format (choices: "peggy", "pest", default:
+                              "peggy")
+  -s, --startRule <ruleName>  Start rule for generated grammar.  Defaults to
+                              first rule in ABNF grammar.  Can be specified
+                              multiple times.
+  --stubs                     Generate stubs for rules that do not exist, rather
+                              than failing.
+  -o, --output <file>         Output grammar file name.  Derived from input file
+                              name if not specified. (default: "stdin.peggy")
+  -u, --unused                Output rules that are not reachable from the start
+                              rule
   -c, --core                  Include core rules from RFC 5234, Appendix B.
   -h, --help                  display help for command
 ```
