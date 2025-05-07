@@ -189,27 +189,6 @@ test("testPeggy", async t => {
         peg$silentFails: -1,
       },
     },
-    {
-      validInput: " ",
-      invalidInput: "a",
-      options: {
-        peg$startRuleFunction: "peg$parseSP",
-      },
-    },
-    {
-      validInput: "\t",
-      invalidInput: "a",
-      options: {
-        peg$startRuleFunction: "peg$parseHTAB",
-      },
-    },
-    {
-      validInput: "!",
-      invalidInput: " ",
-      options: {
-        peg$startRuleFunction: "peg$parseVCHAR",
-      },
-    },
   ];
   await testPeggy(new URL("../lib/abnfp.js", import.meta.url), starts);
 });

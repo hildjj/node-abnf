@@ -52,3 +52,23 @@ test("parseStream", async t => {
   });
   await t.throwsAsync(() => abnf.parseStream(r, "error"));
 });
+
+test("checkRefs", t => {
+  const rules = abnf.parseFile(CORE);
+  const res = abnf.checkRefs(rules);
+  t.true(Array.isArray(res));
+  t.is(res.length, 8);
+
+  const badRules = abnf.parseString(`
+BAR = BOO
+`);
+  const badRes = abnf.checkRefs(badRules);
+  t.true(Array.isArray(badRes));
+  t.is(badRes.length, 1);
+
+  const goodRules = abnf.parseString(`
+BAR = "bar"
+`);
+  const goodRes = abnf.checkRefs(goodRules);
+  t.is(goodRes, null);
+});

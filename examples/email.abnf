@@ -62,7 +62,8 @@
 
    phrase          =   1*word / obs-phrase
 
-   unstructured    =   (*([FWS] VCHAR) *WSP) / obs-unstruct
+   ; * changed to 1* so that obs-unstruct might match
+   unstructured    =   (1*([FWS] VCHAR) *WSP) / obs-unstruct
 
 
 
