@@ -22,7 +22,7 @@ program
   .option("-t, --test <string>", "String to check against grammar.")
   .option("-T, --testFile <file>", "File contents to check against grammar.")
   .option("--trace", "Turn on peggy tracing")
-  .action(async(files, opts) => {
+  .action(async (files, opts) => {
     if (files.length === 0) {
       files.push("-");
     }

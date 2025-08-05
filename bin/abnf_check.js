@@ -7,7 +7,7 @@ const program = new Command();
 program
   .argument("[abnfFile...]")
   .description("Check ABNF files for syntax, unused rules, and undefined rules")
-  .action(async(files, opts) => {
+  .action(async (files, opts) => {
     if (files.length === 0) {
       files.push("-");
     }

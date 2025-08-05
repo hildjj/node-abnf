@@ -50,7 +50,7 @@ program
     "Output rules that are not reachable from the start rule"
   )
   .option("-c, --core", "Include core rules from RFC 5234, Appendix B.")
-  .action(async(files, opts, cmd) => {
+  .action(async (files, opts, cmd) => {
     if (files.length === 0) {
       files.push("-");
       if ((cmd.getOptionValueSource("output") === "default") && opts.core) {
