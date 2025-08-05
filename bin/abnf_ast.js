@@ -23,7 +23,7 @@ program
   .argument("[abnfFile...]")
   .description("Output all of the rules derived from a given ABNF file")
   .option("-l,--location", "don't remove location information")
-  .action(async(files, opts) => {
+  .action(async (files, opts) => {
     if (files.length === 0) {
       files.push("-");
     }
