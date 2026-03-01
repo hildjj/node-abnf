@@ -71,9 +71,6 @@
   "packageManager": "pnpm@10.30.3",
   "pnpm": {
     "overrides": {
-      "supertap@3.0.1>js-yaml": "3.14.2",
-      "concordance@5.0.4>lodash": "4.17.23",
-      "@mapbox/node-pre-gyp@2.0.0>tar": "7.5.9",
       "c8@11.0.0>yargs": "18.0.0"
     }
   },
