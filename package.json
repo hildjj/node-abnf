@@ -1,7 +1,7 @@
 {
   "name": "abnf",
   "description": "Augmented Backus-Naur Form (ABNF) parsing.  See RFC 5234.",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "license": "Apache-2.0",
   "author": "Joe Hildebrand <joe-github@cursive.net>",
   "contributors": [
