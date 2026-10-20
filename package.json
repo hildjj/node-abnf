@@ -55,20 +55,20 @@
     "ci": "npm run coverage && npm run lint"
   },
   "dependencies": {
-    "commander": "^14.0.3",
-    "peggy": "^5.1.0"
+    "commander": "^15.0.0",
+    "peggy": "^5.1.1"
   },
   "devDependencies": {
-    "@peggyjs/coverage": "^2.0.5",
-    "@peggyjs/eslint-config": "^6.0.13",
-    "@typescript-eslint/eslint-plugin": "^8.57.1",
-    "@typescript-eslint/parser": "^8.57.1",
-    "ava": "^7.0.0",
-    "eslint": "^10.0.3",
-    "superc8": "^12.3.1",
-    "typescript": "^5.9.3"
+    "@peggyjs/coverage": "^2.0.6",
+    "@peggyjs/eslint-config": "^6.0.16",
+    "@typescript-eslint/eslint-plugin": "^8.71.2",
+    "@typescript-eslint/parser": "^8.71.2",
+    "ava": "^8.1.0",
+    "eslint": "^10.12.0",
+    "superc8": "^12.7.0",
+    "typescript": "^7.0.2"
   },
-  "packageManager": "pnpm@10.32.1",
+  "packageManager": "pnpm@12.13.0",
   "engines": {
     "node": ">=20"
   }
